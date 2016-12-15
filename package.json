@@ -8,11 +8,7 @@
   "repository": {
     "url": "https://github.com/NonCreature0714/rpi3-audio-player.git"
   },
-  "dependencies": {
-    "bluebird": "^3.4.6",
-    "minimist": "^1.2.0",
-    "shelljs": "^0.7.5"
-  },
+  "dependencies": {},
   "scripts": {
     "test": "test"
   },
@@ -23,5 +19,12 @@
     "audio",
     "player",
     "music"
+  ],
+  "os": [
+    "raspian"
+  ],
+  "cpu": [
+    "arm",
+    "!x86"
   ]
 }
