@@ -1,0 +1,112 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'publish',
+1 verbose cli   '--access=@noncreature0714' ]
+2 warn invalid config access="@noncreature0714"
+3 info using npm@3.10.9
+4 info using node@v6.9.2
+5 verbose publish [ '.' ]
+6 silly cache add args [ '.', null ]
+7 verbose cache add spec .
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: '.',
+8 silly cache add   scope: null,
+8 silly cache add   escapedName: null,
+8 silly cache add   name: null,
+8 silly cache add   rawSpec: '.',
+8 silly cache add   spec: '/home/pi/NodeProjects/rpi3-audio-player',
+8 silly cache add   type: 'directory' }
+9 verbose addLocalDirectory /home/pi/.npm/rpi3-audio-player/0.0.1/package.tgz not in flight; packing
+10 verbose correctMkdir /home/pi/.npm correctMkdir not in flight; initializing
+11 info lifecycle rpi3-audio-player@0.0.1~prepublish: rpi3-audio-player@0.0.1
+12 silly lifecycle rpi3-audio-player@0.0.1~prepublish: no script for prepublish, continuing
+13 verbose tar pack [ '/home/pi/.npm/rpi3-audio-player/0.0.1/package.tgz',
+13 verbose tar pack   '/home/pi/NodeProjects/rpi3-audio-player' ]
+14 verbose tarball /home/pi/.npm/rpi3-audio-player/0.0.1/package.tgz
+15 verbose folder /home/pi/NodeProjects/rpi3-audio-player
+16 verbose addLocalTarball adding from inside cache /home/pi/.npm/rpi3-audio-player/0.0.1/package.tgz
+17 verbose correctMkdir /home/pi/.npm correctMkdir not in flight; initializing
+18 silly cache afterAdd rpi3-audio-player@0.0.1
+19 verbose afterAdd /home/pi/.npm/rpi3-audio-player/0.0.1/package/package.json not in flight; writing
+20 verbose correctMkdir /home/pi/.npm correctMkdir not in flight; initializing
+21 verbose afterAdd /home/pi/.npm/rpi3-audio-player/0.0.1/package/package.json written
+22 silly publish { name: 'rpi3-audio-player',
+22 silly publish   version: '0.0.1',
+22 silly publish   description: 'An Node.js audio player custom built for the Raspberry Pi 3.',
+22 silly publish   main: 'main.js',
+22 silly publish   license: 'MIT',
+22 silly publish   author: { name: 'William W Brubaker' },
+22 silly publish   repository: { url: 'git+https://github.com/NonCreature0714/rpi3-audio-player.git' },
+22 silly publish   dependencies: { bluebird: '^3.4.6', minimist: '^1.2.0', shelljs: '^0.7.5' },
+22 silly publish   scripts: { test: 'test' },
+22 silly publish   keywords: [ 'raspberry', 'pi', 'rpi3', 'audio', 'player', 'music' ],
+22 silly publish   readme: ' # rpi3-audio-player\n',
+22 silly publish   readmeFilename: 'README.md',
+22 silly publish   gitHead: '4ae66ce844dc29d84bb0fde66d7153bd3bd0bb15',
+22 silly publish   bugs: { url: 'https://github.com/NonCreature0714/rpi3-audio-player/issues' },
+22 silly publish   homepage: 'https://github.com/NonCreature0714/rpi3-audio-player#readme',
+22 silly publish   _id: 'rpi3-audio-player@0.0.1',
+22 silly publish   _shasum: '9b308f366266871d69cd9e630b0ba29d031736f4',
+22 silly publish   _from: '.' }
+23 verbose getPublishConfig undefined
+24 silly mapToRegistry name rpi3-audio-player
+25 silly mapToRegistry scope (from config) @noncreature0714
+26 verbose mapToRegistry no registry URL found in config for scope @noncreature0714
+27 silly mapToRegistry using default registry
+28 silly mapToRegistry registry https://registry.npmjs.org/
+29 silly mapToRegistry data Result {
+29 silly mapToRegistry   raw: 'rpi3-audio-player',
+29 silly mapToRegistry   scope: null,
+29 silly mapToRegistry   escapedName: 'rpi3-audio-player',
+29 silly mapToRegistry   name: 'rpi3-audio-player',
+29 silly mapToRegistry   rawSpec: '',
+29 silly mapToRegistry   spec: 'latest',
+29 silly mapToRegistry   type: 'tag' }
+30 silly mapToRegistry uri https://registry.npmjs.org/rpi3-audio-player
+31 verbose publish registryBase https://registry.npmjs.org/
+32 silly publish uploading /home/pi/.npm/rpi3-audio-player/0.0.1/package.tgz
+33 verbose request uri https://registry.npmjs.org/rpi3-audio-player
+34 verbose request sending authorization for write operation
+35 info attempt registry request try #1 at 7:11:30 PM
+36 verbose request using bearer token for auth
+37 verbose request id 739933f4cf950af0
+38 http request PUT https://registry.npmjs.org/rpi3-audio-player
+39 http 403 https://registry.npmjs.org/rpi3-audio-player
+40 verbose headers { 'content-type': 'application/json',
+40 verbose headers   'cache-control': 'max-age=300',
+40 verbose headers   'content-length': '95',
+40 verbose headers   'accept-ranges': 'bytes',
+40 verbose headers   date: 'Thu, 15 Dec 2016 01:11:31 GMT',
+40 verbose headers   via: '1.1 varnish',
+40 verbose headers   connection: 'keep-alive',
+40 verbose headers   'x-served-by': 'cache-ord1747-ORD',
+40 verbose headers   'x-cache': 'MISS',
+40 verbose headers   'x-cache-hits': '0',
+40 verbose headers   'x-timer': 'S1481764290.833392,VS0,VE601',
+40 verbose headers   vary: 'Accept-Encoding' }
+41 verbose request invalidating /home/pi/.npm/registry.npmjs.org/rpi3-audio-player on PUT
+42 error publish Failed PUT 403
+43 verbose stack Error: "You cannot publish over the previously published version 0.0.1." : rpi3-audio-player
+43 verbose stack     at makeError (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:302:12)
+43 verbose stack     at CachingRegistryClient.<anonymous> (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:290:14)
+43 verbose stack     at Request._callback (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:210:14)
+43 verbose stack     at Request.self.callback (/usr/lib/node_modules/npm/node_modules/request/request.js:187:22)
+43 verbose stack     at emitTwo (events.js:106:13)
+43 verbose stack     at Request.emit (events.js:191:7)
+43 verbose stack     at Request.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1048:10)
+43 verbose stack     at emitOne (events.js:96:13)
+43 verbose stack     at Request.emit (events.js:188:7)
+43 verbose stack     at IncomingMessage.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:969:12)
+44 verbose statusCode 403
+45 verbose pkgid rpi3-audio-player
+46 verbose cwd /home/pi/NodeProjects/rpi3-audio-player
+47 error Linux 4.4.37-v7+
+48 error argv "/usr/bin/nodejs" "/usr/bin/npm" "publish" "--access=@noncreature0714"
+49 error node v6.9.2
+50 error npm  v3.10.9
+51 error code E403
+52 error "You cannot publish over the previously published version 0.0.1." : rpi3-audio-player
+53 error If you need help, you may report this error at:
+53 error     <https://github.com/npm/npm/issues>
+54 verbose exit [ 1, true ]
