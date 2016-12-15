@@ -1,13 +1,12 @@
 const os = require('os');
 const fs = require('fs');
 const spawn = require('child_process').spawn;
-const path = require('path');
 
 
-const pwd = spawn('pwd', []);
-var localpath = "/home/pi/Music/"
-//console.log("Path to Music is: " + localpath);
-const ls = spawn('ls', ['-lh', '/home/pi/Music']);
+/*const pwd = spawn('pwd', []);*/
+var path = "/home/pi/Music/"
+console.log("Path to Music is: " + path);
+const ls = spawn('ls', [, path]);
 
 //TODO: list the mp3s in ~/Music
 //TODO: Read those filenames from stdout into an array.
@@ -22,11 +21,10 @@ ls.stderr.on('data', (data) => {
 });
 
 ls.on('close', (code) => {
-	console.log(`"ls" exited with code ${code}`);
+	console.log(`child prcess exited with code ${code}`);
 });
 
-//localpath = localpath + "bensound-dubstep.mp3";
-const omxplayer = spawn('omxplayer', ['/home/pi/Music/bensound-dubstep.mp3']);
+const omxplayer = spawn('omxplayer', []);
 
 /*
 pwd.stdout.on('data', (data) => {
@@ -47,5 +45,5 @@ omxplayer.stderr.on('data', (data) => {
 });
 
 omxplayer.on('close', (code) => {
-	console.log(`omxplayer ended with code ${code}`);
+	console.log(`child prcess ended with code ${code}`);
 });
