@@ -7,7 +7,8 @@ const fs = require('fs');
 const spawn = require('child_process').spawn;
 const path = require('path');
 const audioFolder = './audio_tracks';
-var tracks = [];
+var tracks = [];//TODO: store paths to audio tracks, not the files themselves.
+
 
 //TODO: store the  mp3s in ./audio_tracks in an array.
 //TODO: play the first file.
@@ -18,6 +19,12 @@ var tracks = [];
  * use "amixer cset numid=3 2" to set audio to HDMI, or 
  * "amixer cset numid=3 0" to set to automatic
  **/
+
+fs.readdir(audioFolder, (err, files) => {
+	files.forEach(file => {
+		console.log(file);
+	});
+});
 
 const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
 
