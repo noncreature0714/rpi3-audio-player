@@ -3,6 +3,8 @@
 
 Supports CLI use as well as a library in your Node.js project.
 
+#This is a work in progress, so feel free to contribute :)
+
 ###Installation###
 
 If [npm](npmjs.com) is installed:
