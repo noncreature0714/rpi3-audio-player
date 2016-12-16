@@ -8,14 +8,22 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 
 
-//TODO: list the mp3s in ./audio_tracks
-//TODO: Read those filenames from stdout into an array.
+//TODO: store the  mp3s in ./audio_tracks in an array.
 //TODO: play the first file.
 
-const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-dubstep.mp3']);
+//TODO: use jackd to configure the audio to play out of the headphone jack or hdmi (use parameters to detemine behaviour.)
+
+/* NOTE: use "amixer cset numid=3 1" to set audio to headphone jack, 
+ * use "amixer cset numid=3 2" to set audio to HDMI, or 
+ * "amixer cset numid=3 0" to set to automatic
+ **/
+
+const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
 
 //NOTE: console stdin/out/err is for debug purposes atm.
+
 omxplayer.stdout.on('data', (data) => {
+	console.log(`player started`);
 	console.log(`${data}`);
 });
 
@@ -23,6 +31,7 @@ omxplayer.stderr.on('data', (data) => {
 	//TODO: catch and report errors
 	console.log(`${data}`);
 });
+
 
 omxplayer.on('close', (code) => {
 	//TODO: if omxplayer exits and there are no tracks, report.
@@ -52,3 +61,5 @@ omxplayer.on('close', (code) => {
 //TODO: seekAhead600seconds() (safe seek)
 //TODO: check for tracks function.
 //TODO: add tracks function.
+//TODO: set number of audio channels function (max is 2)
+//TODO: set audio route function with amixer.

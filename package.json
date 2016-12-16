@@ -6,11 +6,16 @@
   "license": "MIT",
   "author": "William W Brubaker",
   "repository": {
+    "type" : "git",
     "url": "https://github.com/NonCreature0714/rpi3-audio-player.git"
   },
   "dependencies": {},
   "scripts": {
     "test": "test"
+  },
+  "bugs" : {
+    "url" : "https://github.com/NonCreature0714/rpi3-audio-player/issues",
+    "email" : "noncreature0714@gmail.com"
   },
   "keywords": [
     "raspberry",
