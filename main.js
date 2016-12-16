@@ -7,8 +7,9 @@ const fs = require('fs');
 const spawn = require('child_process').spawn;
 const path = require('path');
 const audioFolder = './audio_tracks';
+const musicFolder = '/home/pi/Music';
 var tracks = [];//TODO: store paths to audio tracks, not the files themselves.
-
+var currentTrack;
 
 //TODO: store the  mp3s in ./audio_tracks in an array.
 //TODO: play the first file.
@@ -19,7 +20,8 @@ var tracks = [];//TODO: store paths to audio tracks, not the files themselves.
  * use "amixer cset numid=3 2" to set audio to HDMI, or 
  * "amixer cset numid=3 0" to set to automatic
  **/
-var index = 0;
+/*var index = 0; 
+
 fs.readdir(audioFolder, (err, files) => {
 	files.forEach(file => {
 		console.log(file);
@@ -29,7 +31,53 @@ fs.readdir(audioFolder, (err, files) => {
 	});
 });
 index = 0;
+*/
+
+const findTracks = () => {
+	var index = 0;
+	fs.readdir(audioFolder, (err, files) => {
+		files.forEach(file => {
+			console.log(file);
+			tracks[index] = path.join(audioFolder, file);
+			console.log('file path is: ' + tracks[index]);
+			index += 1;
+		});
+	});
+	index = 0;
+	
+	if (tracks.length > 0) {
+		return;
+	} else {
+		fs.readdir(musicFolder, (err, files) => {
+			files.forEach(file => {
+				console.log(file);
+				tracks[index] = path.join(musicFolder, file);
+				console.log('file path is: ' + tracks[index]);
+				index += 1;
+			});
+		});
+	}
+	
+	index=0;
+	if (tracks.length > 0) {
+			return;
+	} else {
+		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
+	}
+	
+};
+
 const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
+
+const play = (pathToTrack) => {
+	if (!pathToTrack) {
+		//TODO: find tracks if param is null.
+	}
+	if (tracks.length === 0) {
+		//Exit the player with a message.
+	}
+	
+};
 
 //NOTE: console stdin/out/err is for debug purposes atm.
 
