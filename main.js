@@ -6,7 +6,8 @@ const os = require('os');
 const fs = require('fs');
 const spawn = require('child_process').spawn;
 const path = require('path');
-
+const audioFolder = './audio_tracks';
+var tracks = [];
 
 //TODO: store the  mp3s in ./audio_tracks in an array.
 //TODO: play the first file.
