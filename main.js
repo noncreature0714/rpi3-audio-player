@@ -19,13 +19,16 @@ var tracks = [];//TODO: store paths to audio tracks, not the files themselves.
  * use "amixer cset numid=3 2" to set audio to HDMI, or 
  * "amixer cset numid=3 0" to set to automatic
  **/
-
+var index = 0;
 fs.readdir(audioFolder, (err, files) => {
 	files.forEach(file => {
 		console.log(file);
+		tracks[index] = path.join('./audio_tracks',file);
+		console.log('file path is: ' + tracks[index]);
+		index += 1;
 	});
 });
-
+index = 0;
 const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
 
 //NOTE: console stdin/out/err is for debug purposes atm.
