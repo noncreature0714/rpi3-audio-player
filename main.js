@@ -8,7 +8,7 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 
 
-//TODO: list the mp3s in ~/Music
+//TODO: list the mp3s in ./audio_tracks
 //TODO: Read those filenames from stdout into an array.
 //TODO: play the first file.
 
