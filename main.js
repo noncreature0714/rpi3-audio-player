@@ -8,9 +8,9 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 const audioFolder = './audio_tracks';
 const musicFolder = '/home/pi/Music';
-var tracks = [];//TODO: store paths to audio tracks, not the files themselves.
+var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
 var currentTrack;
-
+var numTracks = 0;
 //TODO: store the  mp3s in ./audio_tracks in an array.
 //TODO: play the first file.
 
@@ -23,6 +23,7 @@ var currentTrack;
 /*var index = 0; 
 
 fs.readdir(audioFolder, (err, files) => {
+	var index = 0;
 	files.forEach(file => {
 		console.log(file);
 		tracks[index] = path.join('./audio_tracks',file);
@@ -34,50 +35,52 @@ index = 0;
 */
 
 const findTracks = () => {
+	//console.log('findTracks called.');
 	var index = 0;
 	fs.readdir(audioFolder, (err, files) => {
 		files.forEach(file => {
-			console.log(file);
+			//console.log(file);
+			//console.log('index of: ' + index);
 			tracks[index] = path.join(audioFolder, file);
-			console.log('file path is: ' + tracks[index]);
+			//console.log('file path is: ' + tracks[index]);
 			index += 1;
 		});
 	});
-	index = 0;
-	
-	if (tracks.length > 0) {
-		return;
-	} else {
+	if (!tracks) {
 		fs.readdir(musicFolder, (err, files) => {
 			files.forEach(file => {
-				console.log(file);
+				//console.log(file);
 				tracks[index] = path.join(musicFolder, file);
-				console.log('file path is: ' + tracks[index]);
+				//console.log('file path is: ' + tracks[index]);
 				index += 1;
 			});
 		});
 	}
-	
-	index=0;
-	if (tracks.length > 0) {
-			return;
-	} else {
+	numTracks = index + 1;
+	if (!tracks) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
-	
 };
 
-const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
+//findTracks();//Uncomment to test.
 
+//const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
 const play = (pathToTrack) => {
 	if (!pathToTrack) {
 		//TODO: find tracks if param is null.
+		findTracks();
 	}
-	if (tracks.length === 0) {
-		//Exit the player with a message.
+	if (tracks) {
+		while(true){//This loop is temporary.
+		//Play audio files in folder.
+			for (var i = 0; i < numTracks; i+=1){
+			//const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
+			const omxplayer = spawn('omxplayer', [tracks[i]]);
+			}
+		}
 	}
-	
 };
+play();
 
 //NOTE: console stdin/out/err is for debug purposes atm.
 
