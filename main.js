@@ -79,14 +79,14 @@ const play = (pathToTrack) => {
 		console.log('Current track is: ' + currentTrack + ' at index ' + trackIndex + '.');
 
 	}
-
+	console.log('spawning omxplayer in play function.');
 	const omxplayer = spawn('omxplayer', [currentTrack]);
 };
 
 play(currentTrack);
 
 //NOTE: console stdin/out/err is for debug purposes atm.
-
+console.log('spawning omxplayer globally.');
 const omxplayer = spawn('omxplayer', [currentTrack]);
 
 omxplayer.stdout.on('data', (data) => {
