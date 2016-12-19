@@ -52,7 +52,12 @@ const findTracks = () => {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
 	console.log('findTracks() found: ');
-	array.forEach(track => {console.log(track)});
+	/*array.forEach(track => {
+		console.log(track)
+	});*/
+	array.forEach(value => {
+		console.log(value);
+	});
 	return array;
 };
 
@@ -64,9 +69,8 @@ function listTracks(){
 		return;
 	}
 	tracks.forEach(track => {
-			console.log(track);
-		}
-	);
+		console.log(track);
+	});
 }
 
 tracks = findTracks();
