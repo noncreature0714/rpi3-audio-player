@@ -55,9 +55,9 @@ const findTracks = () => {
 	/*array.forEach(track => {
 		console.log(track)
 	});*/
-	array.forEach(value => {
-		console.log(value);
-	});
+	for(var i = 0; i< array.length; i++){
+		console.log(array[i]);
+	}
 	return array;
 };
 
