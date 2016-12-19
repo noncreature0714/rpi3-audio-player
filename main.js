@@ -31,7 +31,7 @@ const findTracks = () => {
 			//console.log(file);
 			//console.log('index of: ' + index);
 			tracks.push(path.join(audioFolder, file));
-			//console.log('file path is: ' + tracks[index]);
+			console.log('From findTracks(), the file path of track ' + index+1 + ' is: ' + tracks[index]);
 			index += 1;
 		});
 	});
@@ -50,7 +50,8 @@ const findTracks = () => {
 	if (!tracks) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
-	//console.log('findTracks() found: ' + tracks);
+	console.log('findTracks() found: ');
+	tracks.forEach(track =>{console.log(track)});
 	return tracks;
 };
 
