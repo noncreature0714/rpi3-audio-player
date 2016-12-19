@@ -51,34 +51,39 @@ const findTracks = () => {
 	}
 };
 
-findTracks();//Uncomment to test.
-
-
+//findTracks();//Uncomment to test.
 
 const play = (pathToTrack) => {
 	console.log('Play function called.');
 	if (!pathToTrack) {
 		//TODO: find tracks if param is null.
 		findTracks();
-	} else if (tracks) {
+	} else if (pathToTrack) {
 		console.log('There are ' + tracks.length + ' to play.');
-
-		if (tracks.length === 1) {
-			console.log('Only one track to play.');
-			currentTrack = tracks[trackIndex];
-		} else if (currentTrack === tracks[tracks.length-1]){
-			console.log('Reached the last file, starting over.');
-			trackIndex = 0;
-			currentTrack = tracks[trackIndex];
+		if(pathToTrack === currentTrack){
+			if (tracks.length === 1) {
+				console.log('Only one track to play.');
+				currentTrack = tracks[trackIndex];
+			} else if (currentTrack === tracks[tracks.length-1]){
+				console.log('Reached the last file, starting over.');
+				trackIndex = 0;
+				currentTrack = tracks[trackIndex];
+			} else {
+				currentTrack = tracks[++trackIndex];
+			}
 		} else {
-			currentTrack = tracks[++trackIndex];
+			console.log('invalid track path, trying to find a valid track.');
+			findTracks();
 		}
+		
 		console.log('Current track is: ' + currentTrack + ' at index ' + trackIndex + '.');
 
 	}
+
+	const omxplayer = spawn('omxplayer', [currentTrack]);
 };
 
-play();
+play(currentTrack);
 
 //NOTE: console stdin/out/err is for debug purposes atm.
 
