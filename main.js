@@ -49,6 +49,7 @@ const findTracks = () => {
 		});
 	}
 	numTracks = index + 1;
+	console.log('from findTracks(), it thinks there are ' + numTracks + '.');
 	if (array.length === 0) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
