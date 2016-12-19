@@ -31,7 +31,8 @@ const findTracks = () => {
 		files.forEach(file => {
 			//console.log(file);
 			//console.log('index of: ' + index);
-			array.push(path.join(audioFolder, file));
+			tmpPath = './' + path.join(audioFolder, file);
+			array.push(tmpPath);
 			console.log('From findTracks(), the file path of track ' + index+1 + ' is: ' + array[index]);
 			index += 1;
 		});
