@@ -49,7 +49,7 @@ const findTracks = () => {
 	var index = 0;
 	var array = new Array();
 	
-	fs.readdir(audioFolder, (err, files) => {
+	fs.readdirSync(audioFolder, (err, files) => {
 		files.forEach(file => {
 			tmpPath = './' + path.join(audioFolder, file);
 			console.log('From findTracks(), tmpPath is: ' + tmpPath);
@@ -64,7 +64,7 @@ const findTracks = () => {
 	});
 	if (tracks.length === 0) {
 		console.log('No tracks in "./audio_tracks"');
-		fs.readdir(musicFolder, (err, files) => {
+		fs.readdirSync(musicFolder, (err, files) => {
 			files.forEach(file => {
 				//console.log(file);
 				//array.push(path.join(musicFolder, file));
