@@ -49,6 +49,7 @@ const findTracks = () => {
 	if (!tracks) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
+	console.log('findTracks() found: ' + tracks);
 	return tracks;
 };
 
@@ -83,7 +84,7 @@ const getNextTrackAt = (pathToTrack) => {//Play only get get the next track.
 		tracks = findTracks();
 		currentTrack = tracks[0];
 	}
-
+	console.log('getNextTrackAt() found: ' + currentTrack);
 	return currentTrack;	
 };
 
@@ -94,8 +95,12 @@ const getNextTrackAt = (pathToTrack) => {//Play only get get the next track.
 //const omxplayer = spawn('omxplayer', [currentTrack]);
 
 const startPlayer = (pathToTrack) => {
+	console.log('startPlayer function called.');
 	//getNextTrackAt(pathToTrack);
-	const omxplayer = spawn('omxplayer', [getNextTrackAt(pathToTrack)]);
+	track = getNextTrackAt(pathToTrack());
+	console.log('In startPlayer(), starting with track ' + track);
+	console.log('spawning omxplayer as child_process.');
+	const omxplayer = spawn('omxplayer', [track]);
 	
 	omxplayer.stdout.on('data', (data) => {
 		console.log(`rpi3 to omxplayer stdout.`);
