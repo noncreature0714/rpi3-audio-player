@@ -41,13 +41,10 @@ const findTracks = () => {
 
 	files = fs.readdirSync(audioFolder);
 	files.forEach(file => {
-			tmpPath = './' + path.join(audioFolder, file);
-			console.log('From findTracks(), tmpPath is: ' + tmpPath);
-			tracks.push(tmpPath);
-			//tracks[index] = tmpPath;
-			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
-			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
-
+			//tmpPath = './' + path.join(audioFolder, file);
+			//tracks.push(tmpPath);
+			tracks.push('./' + path.join(audioFolder, file));
+			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 			index += 1;
 	});
 	
@@ -55,13 +52,10 @@ const findTracks = () => {
 		console.log('No tracks in "./audio_tracks"');
 		files = fs.readdirSync(musicFolder);
 		files.forEach(file => {
-			tmpPath = './' + path.join(musicFolder, file);
-			console.log('From findTracks(), tmpPath is: ' + tmpPath);
-			tracks.push(tmpPath);
-			//tracks[index] = tmpPath;
-			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
-			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
-
+			//tmpPath = './' + path.join(musicFolder, file);
+			//tracks.push(tmpPath);
+			tracks.push('./' + path.join(musicFolder, file));
+			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 			index += 1;
 		});
 	}
@@ -74,14 +68,9 @@ const findTracks = () => {
 	}
 };
 
-
-
-
-//tracks = findTracks();
 findTracks();
 listTracks();
 
-//findTracks();//Uncomment to test.
 /*
 const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 	console.log('Play function called.');
@@ -115,7 +104,6 @@ const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 	console.log('getNextTrackAt() found: ' + currentTrack);
 	return currentTrack;	
 };
-
 
 //play(currentTrack);
 
