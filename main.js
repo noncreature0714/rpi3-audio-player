@@ -38,7 +38,7 @@ const listTracks = () => {
 	for(var i=0; i<tracks.length; i++){
 		console.log(tracks[i]);
 	}
-	if(track){
+	if(tracks){
 		console.log('From inside listTracks(), there is some track there!');
 	}
 	//*/
