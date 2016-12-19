@@ -35,7 +35,7 @@ const findTracks = () => {
 			tmpPath = './' + path.join(audioFolder, file);
 			console.log('From findTracks(), tmpPath is: ' + tmpPath);
 			//array.push(tmpPath);
-			this.tracks.push(tmpPath);
+			tracks.push(tmpPath);
 			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
 			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 
@@ -49,7 +49,7 @@ const findTracks = () => {
 				//console.log(file);
 				//array.push(path.join(musicFolder, file));
 				tmpPath = './' + path.join(audioFolder, file);
-				this.tracks.push(tmpPath);
+				tracks.push(tmpPath);
 				//console.log('file path is: ' + tracks[index]);
 				index += 1;
 			});
