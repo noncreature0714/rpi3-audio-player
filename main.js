@@ -149,7 +149,7 @@ const play = (pathToTrack) => {
 		//console.log(`omxplayer to omxplayer on 'close'`);
 		console.log(`omxplayer ended with code ${code}`);
 		if(code === 0){
-			play();
+			play(track);
 		}
 	});
 }
