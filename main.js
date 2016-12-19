@@ -35,21 +35,21 @@ const findTracks = () => {
 			tmpPath = './' + path.join(audioFolder, file);
 			console.log('From findTracks(), tmpPath is: ' + tmpPath);
 			//array.push(tmpPath);
-			tracks.push(tmpPath);
+			this.tracks.push(tmpPath);
 			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
 			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 
 			index += 1;
 		});
 	});
-	if (tracks.length === 0) {
+	if (this.tracks.length === 0) {
 		console.log('No tracks in "./audio_tracks"');
 		fs.readdir(musicFolder, (err, files) => {
 			files.forEach(file => {
 				//console.log(file);
 				//array.push(path.join(musicFolder, file));
 				tmpPath = './' + path.join(audioFolder, file);
-				tracks.push(tmpPath);
+				this.tracks.push(tmpPath);
 				//console.log('file path is: ' + tracks[index]);
 				index += 1;
 			});
@@ -57,11 +57,12 @@ const findTracks = () => {
 	}
 	numTracks = tracks.length+1;
 	console.log('from findTracks(), it thinks there are ' + numTracks + '.');
-	if (tracks.length === 0) {
+	if (this.tracks.length === 0) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
-	console.log('findTracks() found: ');
-	tracks.forEach(track => {
+	
+	this.tracks.forEach(track => {
+		console.log('findTracks() found: ');
 		console.log(track)
 	});
 	/*for(var i = 0; i< array.length; i++){
