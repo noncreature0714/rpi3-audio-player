@@ -8,7 +8,7 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 const audioFolder = './audio_tracks';
 const musicFolder = '/home/pi/Music';
-var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
+var tracks = {};//TODO: store paths to audio tracks, not the files themselves.
 var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
@@ -23,7 +23,7 @@ var numTracks = 0;
  **/
 
 
-function findTracks() {
+const findTracks = () => {
 	console.log('findTracks function called.');
 	var index = 0;
 	var array = new Array();
@@ -73,7 +73,7 @@ function findTracks() {
 };
 
 
-function listTracks(){
+const listTracks = () => {
 	console.log('listTracks() called, listing tracks')
 	if(!tracks){
 		console.log('There are no tracks!');
