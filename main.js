@@ -42,7 +42,7 @@ const findTracks = () => {
 			index += 1;
 		});
 	});
-	if (this.tracks.length === 0) {
+	if (tracks.length === 0) {
 		console.log('No tracks in "./audio_tracks"');
 		fs.readdir(musicFolder, (err, files) => {
 			files.forEach(file => {
