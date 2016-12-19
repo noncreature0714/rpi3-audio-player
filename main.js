@@ -61,7 +61,7 @@ const findTracks = () => {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
 	
-	this.tracks.forEach(track => {
+	tracks.forEach(track => {
 		console.log('findTracks() found: ');
 		console.log(track)
 	});
