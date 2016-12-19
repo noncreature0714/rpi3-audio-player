@@ -55,7 +55,7 @@ const findTracks = () => {
 
 //findTracks();//Uncomment to test.
 
-const getNextTrackAt = (pathToTrack) => {//Play only get get the next track.
+const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 	console.log('Play function called.');
 	if (!pathToTrack) {
 		//TODO: find tracks if param is null.
@@ -97,7 +97,9 @@ const getNextTrackAt = (pathToTrack) => {//Play only get get the next track.
 const startPlayer = (pathToTrack) => {
 	console.log('startPlayer function called.');
 	//getNextTrackAt(pathToTrack);
-	track = getNextTrackAt(pathToTrack());
+	
+	track = getNextTrackFrom(pathToTrack);
+	
 	console.log('In startPlayer(), starting with track ' + track);
 	console.log('spawning omxplayer as child_process.');
 	const omxplayer = spawn('omxplayer', [track]);
