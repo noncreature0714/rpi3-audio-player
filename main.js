@@ -8,7 +8,7 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 const audioFolder = './audio_tracks';
 const musicFolder = '/home/pi/Music';
-var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
+var window.tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
 var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
