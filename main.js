@@ -27,7 +27,7 @@ const findTracks = () => {
 	console.log('findTracks function called.');
 	var index = 0;
 	var array = new Array();
-	if()
+	
 	fs.readdir(audioFolder, (err, files) => {
 		files.forEach(file => {
 			//console.log(file);
