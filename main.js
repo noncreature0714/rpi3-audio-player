@@ -12,6 +12,7 @@ var tracks = Array();//TODO: store paths to audio tracks, not the files themselv
 var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
+var warnMessage;
 //TODO: play the first file.
 
 //TODO: use jackd to configure the audio to play out of the headphone jack or hdmi (use parameters to detemine behaviour.)
@@ -62,40 +63,59 @@ const findTracks = () => {
 
 //findTracks();
 
-const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
-	console.log('Play function called.');
-	if (!pathToTrack) {
-		//TODO: find tracks if param is null.
+const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
+	var isGood = true;
+	if (!filePath) { //If argument is void, find tracks to play.
 		findTracks();
+	} else if (fs.existsSync(filePath)) { //If the argument is a valid path, then...
+		if (path.extname(filePath) !== '.mp3') {
+			warnMessage = 'Invalid file type, rpi3-audio-player only plays mp3 files. Exiting...';
+			isGood = false;
+		} else {
+			currentTrack = filePath;
+			isGood = true;
+		}
+	} else {
+		warnMessage = 'Invalid file path! Exiting... ';
+		isGood = false;
+	}
+	return isGood;
+}
+	
+
+const getNextTrackFrom = (pathToTrack) => {
+	if (!pathToTrack) { //If argument is void, find tracks to play.
+		findTracks();
+	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){
+		process.emitWarning(warnMessage);
+		process.abort();
 	}
 	
-	if (tracks) {
-		if(pathToTrack === currentTrack){
-			if (tracks.length === 1) {
-				console.log('Only one track to play.');
-				currentTrack = tracks[trackIndex];
-			} else if (currentTrack === tracks[tracks.length-1]){
-				console.log('Reached the last file, starting over.');
+	if(!tracks){
+		process.emitWarning('Not tracks to play, exiting...');
+		process.abort();
+	} else {
+		if(currentTrack){
+			if (tracks.length === 1) {//If there's only one track, keep playing it.
+				process.emitWarning('Only one track to play, looping ' + currentTrack);
 				trackIndex = 0;
 				currentTrack = tracks[trackIndex];
 			} else {
-				currentTrack = tracks[++trackIndex];
+				if(trackIndex===tracks.length){
+					trackIndex = 0;
+				} else {
+					++trackIndex;
+				}
+				currentTrack = tracks[trackIndex];
 			}
 		} else {
-			console.log('Invalid track path, trying to find a valid track.');
-			findTracks();
+			trackIndex = 0;
+			currentTrack = tracks[trackIndex];
 		}
-		console.log('Current track is: ' + currentTrack + ' at index ' + trackIndex + '.');
-
-	} else {
-		tracks = findTracks();
-		currentTrack = tracks[0];
 	}
-	console.log('getNextTrackAt() found: ' + currentTrack);
+
 	return currentTrack;	
 };
-//listTracks();
-//play(currentTrack);
 
 //NOTE: console stdin/out/err is for debug purposes atm.
 //console.log('spawning omxplayer globally.');
@@ -103,7 +123,6 @@ const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 
 const play = (pathToTrack) => {
 	console.log('startPlayer function called.');
-	//getNextTrackAt(pathToTrack);
 	
 	track = getNextTrackFrom(pathToTrack);
 	
@@ -118,7 +137,7 @@ const play = (pathToTrack) => {
 
 	omxplayer.stderr.on('data', (data) => {
 		//TODO: catch and report errors
-		console.log(`rpi3 to omxplayer stderr.`);
+		//console.log(`rpi3 to omxplayer stderr.`);
 		console.log(`Error(s): ${data}`);
 	});
 
@@ -127,7 +146,7 @@ const play = (pathToTrack) => {
 		//TODO: if omxplayer exits and there are no tracks, report.
 		//TODO: if omxplayer exits and there is an array, loop over the array, and  play the next track
 		//TODO: if omxplayer exits and there is only one song, loop.
-		console.log(`omxplayer to omxplayer on 'close'`);
+		//console.log(`omxplayer to omxplayer on 'close'`);
 		console.log(`omxplayer ended with code ${code}`);
 		if(code === 0){
 			play();
