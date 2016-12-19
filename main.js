@@ -55,6 +55,7 @@ function findTracks() {
 			});
 		});
 	}
+	console.log('tracks length: ' + tracks.length);
 	numTracks = tracks.length+1;
 	console.log('from findTracks(), it thinks there are ' + numTracks + '.');
 	if (tracks.length === 0) {
