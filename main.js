@@ -60,21 +60,26 @@ const play = (pathToTrack) => {
 		findTracks();
 	}
 	if (tracks) {
-		while(true){//This loop is temporary.
-		console.log('While loop started.');
+		console.log('There are ' + tracks.length + ' to play.');
 		//TODO: make this while loop true as long as message
 		//is displayed.
 		//Play audio files in folder.
-			for (var i = 0; i < numTracks; i+=1){
-			//const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
-			console.log('for loop started');
-			currentTrack = tracks[i];
-			const omxplayer = spawn('omxplayer', [currentTrack]);
-			}
+
+		//Determine what track to play.
+		if (tracks.length === 1) {
+			currentTrack = tracks[0];
+		} else if (currentTrack === tracks[tracks.length-1]){
+			currentTrack = tracks[0]
 		}
+
+		console.log('Current track is: ' + currentTrack);
+		const omxplayer = spawn('omxplayer', [currentTrack]);
+
+
 	}
 };
-play();
+
+play(tracks[0]);
 
 //NOTE: console stdin/out/err is for debug purposes atm.
 
