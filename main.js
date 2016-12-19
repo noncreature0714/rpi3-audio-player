@@ -86,8 +86,8 @@ const play = (pathToTrack) => {
 play(currentTrack);
 
 //NOTE: console stdin/out/err is for debug purposes atm.
-console.log('spawning omxplayer globally.');
-const omxplayer = spawn('omxplayer', [currentTrack]);
+//console.log('spawning omxplayer globally.');
+//const omxplayer = spawn('omxplayer', [currentTrack]);
 
 omxplayer.stdout.on('data', (data) => {
 	console.log(`rpi3 to omxplayer stdout.`);
