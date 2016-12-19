@@ -50,31 +50,28 @@ const findTracks = () => {
 	}
 };
 
-//findTracks();//Uncomment to test.
+findTracks();//Uncomment to test.
 
-//const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
+const omxplayer = spawn('omxplayer', [tracks[0]]);
+
 const play = (pathToTrack) => {
 	console.log('Play function called.');
 	if (!pathToTrack) {
 		//TODO: find tracks if param is null.
 		findTracks();
-	}
-	if (tracks) {
+	} else if (tracks) {
 		console.log('There are ' + tracks.length + ' to play.');
-		//TODO: make this while loop true as long as message
-		//is displayed.
-		//Play audio files in folder.
 
-		//Determine what track to play.
 		if (tracks.length === 1) {
+			console.log('Only one track to play.');
 			currentTrack = tracks[0];
 		} else if (currentTrack === tracks[tracks.length-1]){
+			console.log('Reached the last file, starting over.');
 			currentTrack = tracks[0]
 		}
 
 		console.log('Current track is: ' + currentTrack);
 		const omxplayer = spawn('omxplayer', [currentTrack]);
-
 
 	}
 };
