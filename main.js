@@ -32,8 +32,9 @@ const findTracks = () => {
 			//console.log(file);
 			//console.log('index of: ' + index);
 			tmpPath = './' + path.join(audioFolder, file);
+			console.log('From findTracks(), tmpPath is: ' + tmpPath);
 			array.push(tmpPath);
-			console.log('From findTracks(), the file path of track ' + index+1 + ' is: ' + array[index]);
+			console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
 			index += 1;
 		});
 	});
@@ -48,7 +49,7 @@ const findTracks = () => {
 			});
 		});
 	}
-	numTracks = index + 1;
+	numTracks = array.length+1;
 	console.log('from findTracks(), it thinks there are ' + numTracks + '.');
 	if (array.length === 0) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
