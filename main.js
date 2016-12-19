@@ -52,8 +52,24 @@ const findTracks = () => {
 	}
 	console.log('findTracks() found: ');
 	tracks.forEach(track =>{console.log(track)});
-	return tracks;
+	//return tracks;
 };
+
+
+function listTracks(){
+	console.log('listTracks() called, listing tracks')
+	if(!tracks){
+		console.log('There are no tracks!');
+		return;
+	}
+	tracks.forEach(track => {
+			console.log(track);
+		}
+	);
+}
+
+findTracks();
+listTracks();
 
 //findTracks();//Uncomment to test.
 
@@ -90,17 +106,6 @@ const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 	return currentTrack;	
 };
 
-function listTracks(){
-	console.log('listTracks() called.')
-	console.log('Listing tracks:')
-	tracks.forEach(track => {
-			console.log(track);
-		}
-	);
-}
-
-tracks = findTracks();
-listTracks();
 
 //play(currentTrack);
 
