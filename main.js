@@ -23,14 +23,14 @@ var numTracks = 0;
 
 
 const findTracks = () => {
-	//console.log('findTracks called.');
+	console.log('findTracks function called.');
 	var index = 0;
 	fs.readdir(audioFolder, (err, files) => {
 		files.forEach(file => {
 			//console.log(file);
 			//console.log('index of: ' + index);
 			tracks[index] = path.join(audioFolder, file);
-			//console.log('file path is: ' + tracks[index]);
+			console.log('file path is: ' + tracks[index]);
 			index += 1;
 		});
 	});
@@ -54,17 +54,20 @@ const findTracks = () => {
 
 //const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
 const play = (pathToTrack) => {
+	console.log('Play function called.');
 	if (!pathToTrack) {
 		//TODO: find tracks if param is null.
 		findTracks();
 	}
 	if (tracks) {
 		while(true){//This loop is temporary.
+		console.log('While loop started.');
 		//TODO: make this while loop true as long as message
 		//is displayed.
 		//Play audio files in folder.
 			for (var i = 0; i < numTracks; i+=1){
 			//const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
+			console.log('for loop started');
 			currentTrack = tracks[i];
 			const omxplayer = spawn('omxplayer', [currentTrack]);
 			}
