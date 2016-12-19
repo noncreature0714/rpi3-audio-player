@@ -23,7 +23,7 @@ var numTracks = 0;
  **/
 
 
-const findTracks = () => {
+function findTracks() {
 	console.log('findTracks function called.');
 	var index = 0;
 	var array = new Array();
