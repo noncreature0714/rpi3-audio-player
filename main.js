@@ -26,7 +26,7 @@ var numTracks = 0;
 const findTracks = () => {
 	console.log('findTracks function called.');
 	var index = 0;
-	var array = new Object();
+	var array = new Array();
 	fs.readdir(audioFolder, (err, files) => {
 		files.forEach(file => {
 			//console.log(file);
@@ -52,12 +52,12 @@ const findTracks = () => {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
 	console.log('findTracks() found: ');
-	/*array.forEach(track => {
+	array.forEach(track => {
 		console.log(track)
-	});*/
-	for(var i = 0; i< array.length; i++){
+	});
+	/*for(var i = 0; i< array.length; i++){
 		console.log(array[i]);
-	}
+	}*/
 	return array;
 };
 
@@ -68,12 +68,12 @@ function listTracks(){
 		console.log('There are no tracks!');
 		return;
 	}
-	/*tracks.forEach(track => {
+	tracks.forEach(track => {
 		console.log(track);
-	});*/
-	for(var i=0; i<tracks.length; i++){
+	});
+	/*for(var i=0; i<tracks.length; i++){
 		console.log(tracks[i]);
-	}
+	}*/
 }
 
 tracks = findTracks();
