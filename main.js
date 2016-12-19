@@ -8,7 +8,8 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 const audioFolder = './audio_tracks';
 const musicFolder = '/home/pi/Music';
-var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
+//var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
+var tracks = {};
 var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
@@ -22,6 +23,26 @@ var numTracks = 0;
  * "amixer cset numid=3 0" to set to automatic
  **/
 
+const listTracks = () => {
+	console.log('listTracks() called, listing tracks')
+	if(!tracks){
+		console.log('There are no tracks!');
+		return;
+	}
+	/*
+	tracks.forEach(track => {
+		console.log(track);
+	});
+	*/
+	//*
+	for(var i=0; i<tracks.length; i++){
+		console.log(tracks[i]);
+	}
+	if(track){
+		console.log('From inside listTracks(), there is some track there!');
+	}
+	//*/
+}
 
 const findTracks = () => {
 	console.log('findTracks function called.');
@@ -30,8 +51,6 @@ const findTracks = () => {
 	
 	fs.readdir(audioFolder, (err, files) => {
 		files.forEach(file => {
-			//console.log(file);
-			//console.log('index of: ' + index);
 			tmpPath = './' + path.join(audioFolder, file);
 			console.log('From findTracks(), tmpPath is: ' + tmpPath);
 			//array.push(tmpPath);
@@ -63,52 +82,20 @@ const findTracks = () => {
 	if (tracks.length === 0) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
-	
-	/*
-	tracks.forEach(track => {
-		console.log('findTracks() found: ');
-		console.log(track)
-	});
-	*/
-	/*
-	for(var i = 0; i< array.length; i++){
-		console.log(array[i]);
-	}
-	*/
-	for(var i=0;i<tracks.length; i++){
-		console.log(tracks[i]);
-	}
-	//return array;
+
+	listTracks();
+
 };
 
 
-const listTracks = () => {
-	console.log('listTracks() called, listing tracks')
-	if(!tracks){
-		console.log('There are no tracks!');
-		return;
-	}
-	/*
-	tracks.forEach(track => {
-		console.log(track);
-	});
-	*/
-	//*
-	for(var i=0; i<tracks.length; i++){
-		console.log(tracks[i]);
-	}
-	if(track){
-		console.log('From inside listTracks(), there is some track there!');
-	}
-	//*/
-}
+
 
 //tracks = findTracks();
 findTracks();
-listTracks();
+//listTracks();
 
 //findTracks();//Uncomment to test.
-
+/*
 const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 	console.log('Play function called.');
 	if (!pathToTrack) {
@@ -182,7 +169,7 @@ const startPlayer = (pathToTrack) => {
 		}
 	});
 }
-
+*/
 //startPlayer();
 
 //TODO: command line interpreter for cli only use.
