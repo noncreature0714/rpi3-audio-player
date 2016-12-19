@@ -88,12 +88,16 @@ const listTracks = () => {
 		console.log('There are no tracks!');
 		return;
 	}
+	/*
 	tracks.forEach(track => {
 		console.log(track);
 	});
-	/*for(var i=0; i<tracks.length; i++){
+	*/
+	//*
+	for(var i=0; i<tracks.length; i++){
 		console.log(tracks[i]);
-	}*/
+	}
+	//*/
 }
 
 //tracks = findTracks();
