@@ -86,7 +86,7 @@ function listTracks(){
 }
 
 //tracks = findTracks();
-
+findTracks();
 listTracks();
 
 //findTracks();//Uncomment to test.
