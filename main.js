@@ -49,17 +49,19 @@ const findTracks = () => {
 	if (!tracks) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
+	return tracks;
 };
 
 //findTracks();//Uncomment to test.
 
-const play = (pathToTrack) => {
+const getNextTrackAt = (pathToTrack) => {//Play only get get the next track.
 	console.log('Play function called.');
 	if (!pathToTrack) {
 		//TODO: find tracks if param is null.
-		findTracks();
-	} else if (pathToTrack) {
-		console.log('There are ' + tracks.length + ' to play.');
+		tracks = findTracks();
+	}
+	
+	if (tracks) {
 		if(pathToTrack === currentTrack){
 			if (tracks.length === 1) {
 				console.log('Only one track to play.');
@@ -75,40 +77,51 @@ const play = (pathToTrack) => {
 			console.log('invalid track path, trying to find a valid track.');
 			findTracks();
 		}
-		
 		console.log('Current track is: ' + currentTrack + ' at index ' + trackIndex + '.');
 
+	} else {
+		tracks = findTracks();
+		currentTrack = tracks[0];
 	}
-	console.log('spawning omxplayer in play function.');
-	const omxplayer = spawn('omxplayer', [currentTrack]);
+
+	return currentTrack;	
 };
 
-play(currentTrack);
+//play(currentTrack);
 
 //NOTE: console stdin/out/err is for debug purposes atm.
 //console.log('spawning omxplayer globally.');
 //const omxplayer = spawn('omxplayer', [currentTrack]);
 
-omxplayer.stdout.on('data', (data) => {
-	console.log(`rpi3 to omxplayer stdout.`);
-	console.log(`${data}`);
-});
-
-omxplayer.stderr.on('data', (data) => {
-	//TODO: catch and report errors
-	console.log(`rpi3 to omxplayer stderr.`);
-	console.log(`Error(s): ${data}`);
-});
-
-
-omxplayer.on('close', (code) => {
-	//TODO: if omxplayer exits and there are no tracks, report.
-	//TODO: if omxplayer exits and there is an array, loop over the array, and  play the next track
-	//TODO: if omxplayer exits and there is only one song, loop.
-	console.log(`omxplayer to omxplayer on 'close'`);
-	console.log(`omxplayer ended with code ${code}`);
+const startPlayer = (pathToTrack) => {
+	//getNextTrackAt(pathToTrack);
+	const omxplayer = spawn('omxplayer', [getNextTrackAt(pathToTrack)]);
 	
-});
+	omxplayer.stdout.on('data', (data) => {
+		console.log(`rpi3 to omxplayer stdout.`);
+		console.log(`${data}`);
+	});
+
+	omxplayer.stderr.on('data', (data) => {
+		//TODO: catch and report errors
+		console.log(`rpi3 to omxplayer stderr.`);
+		console.log(`Error(s): ${data}`);
+	});
+
+
+	omxplayer.on('close', (code) => {
+		//TODO: if omxplayer exits and there are no tracks, report.
+		//TODO: if omxplayer exits and there is an array, loop over the array, and  play the next track
+		//TODO: if omxplayer exits and there is only one song, loop.
+		console.log(`omxplayer to omxplayer on 'close'`);
+		console.log(`omxplayer ended with code ${code}`);
+		if(code === 0){
+			startPlayer();
+		}
+	});
+}
+
+startPlayer();
 
 //TODO: command line interpreter for cli only use.
 //TODO: play() function.
