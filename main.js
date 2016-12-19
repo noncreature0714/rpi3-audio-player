@@ -31,11 +31,12 @@ const findTracks = () => {
 			//console.log(file);
 			//console.log('index of: ' + index);
 			tracks.push(path.join(audioFolder, file));
-			console.log('file path is: ' + tracks[index]);
+			//console.log('file path is: ' + tracks[index]);
 			index += 1;
 		});
 	});
 	if (!tracks) {
+		console.log('No tracks in "./audio_tracks"');
 		fs.readdir(musicFolder, (err, files) => {
 			files.forEach(file => {
 				//console.log(file);
@@ -49,7 +50,7 @@ const findTracks = () => {
 	if (!tracks) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
-	console.log('findTracks() found: ' + tracks);
+	//console.log('findTracks() found: ' + tracks);
 	return tracks;
 };
 
@@ -89,6 +90,7 @@ const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 };
 
 function listTracks(){
+	console.log('listTracks() called.')
 	console.log('Listing tracks:')
 	tracks.forEach(track => {
 			console.log(track);
