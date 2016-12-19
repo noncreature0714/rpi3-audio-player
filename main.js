@@ -9,7 +9,6 @@ const path = require('path');
 const audioFolder = './audio_tracks';
 const musicFolder = '/home/pi/Music';
 var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
-//var tracks = {};
 var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
@@ -28,42 +27,17 @@ const listTracks = () => {
 	if(!tracks){
 		console.log('There are no tracks!');
 		return;
+	} else {
+		tracks.forEach(track => {
+			console.log(track);
+		});
 	}
-	/*
-	tracks.forEach(track => {
-		console.log(track);
-	});
-	*/
-	//*
-	for(var i=0; i<tracks.length; i++){
-		console.log(tracks[i]);
-	}
-	if(tracks){
-		console.log('From inside listTracks(), there is some track there!');
-	}
-	//*/
 }
 
 const findTracks = () => {
 	console.log('findTracks function called.');
 	var index = 0;
-	var array = new Array();
-	
-	/*
-	fs.readdir(audioFolder, (err, files) => {
-		files.forEach(file => {
-			tmpPath = './' + path.join(audioFolder, file);
-			console.log('From findTracks(), tmpPath is: ' + tmpPath);
-			//array.push(tmpPath);
-			//tracks.push(tmpPath);
-			tracks[index] = tmpPath;
-			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
-			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 
-			index += 1;
-		});
-	});
-	*/
 	files = fs.readdirSync(audioFolder);
 	files.forEach(file => {
 			tmpPath = './' + path.join(audioFolder, file);
@@ -79,19 +53,6 @@ const findTracks = () => {
 	
 	if (tracks.length === 0) {
 		console.log('No tracks in "./audio_tracks"');
-		/*
-		fs.readdir(musicFolder, (err, files) => {
-			files.forEach(file => {
-				//console.log(file);
-				//array.push(path.join(musicFolder, file));
-				tmpPath = './' + path.join(audioFolder, file);
-				//tracks.push(tmpPath);
-				tracks[index] = tmpPath;
-				//console.log('file path is: ' + tracks[index]);
-				index += 1;
-			});
-		});
-		*/
 		files = fs.readdirSync(musicFolder);
 		files.forEach(file => {
 			tmpPath = './' + path.join(musicFolder, file);
@@ -103,20 +64,15 @@ const findTracks = () => {
 			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 
 			index += 1;
-	});
-
-	
-
+		});
 	}
+
 	console.log('tracks length: ' + tracks.length);
-	numTracks = tracks.length+1;
+	numTracks = tracks.length;
 	console.log('from findTracks(), it thinks there are ' + numTracks + '.');
 	if (tracks.length === 0) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
-
-	//listTracks();
-
 };
 
 
