@@ -57,7 +57,7 @@ const findTracks = () => {
 	}
 	numTracks = tracks.length+1;
 	console.log('from findTracks(), it thinks there are ' + numTracks + '.');
-	if (this.tracks.length === 0) {
+	if (tracks.length === 0) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
 	
