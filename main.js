@@ -8,7 +8,7 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 const audioFolder = './audio_tracks';
 const musicFolder = '/home/pi/Music';
-var window.tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
+var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
 var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
@@ -27,41 +27,47 @@ const findTracks = () => {
 	console.log('findTracks function called.');
 	var index = 0;
 	var array = new Array();
+	if()
 	fs.readdir(audioFolder, (err, files) => {
 		files.forEach(file => {
 			//console.log(file);
 			//console.log('index of: ' + index);
 			tmpPath = './' + path.join(audioFolder, file);
 			console.log('From findTracks(), tmpPath is: ' + tmpPath);
-			array.push(tmpPath);
-			console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
+			//array.push(tmpPath);
+			tracks.push(tmpPath);
+			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
+			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
+
 			index += 1;
 		});
 	});
-	if (array.length === 0) {
+	if (tracks.length === 0) {
 		console.log('No tracks in "./audio_tracks"');
 		fs.readdir(musicFolder, (err, files) => {
 			files.forEach(file => {
 				//console.log(file);
-				array.push(path.join(musicFolder, file));
+				//array.push(path.join(musicFolder, file));
+				tmpPath = './' + path.join(audioFolder, file);
+				tracks.push(tmpPath);
 				//console.log('file path is: ' + tracks[index]);
 				index += 1;
 			});
 		});
 	}
-	numTracks = array.length+1;
+	numTracks = tracks.length+1;
 	console.log('from findTracks(), it thinks there are ' + numTracks + '.');
-	if (array.length === 0) {
+	if (tracks.length === 0) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
 	console.log('findTracks() found: ');
-	array.forEach(track => {
+	tracks.forEach(track => {
 		console.log(track)
 	});
 	/*for(var i = 0; i< array.length; i++){
 		console.log(array[i]);
 	}*/
-	return array;
+	//return array;
 };
 
 
@@ -79,7 +85,8 @@ function listTracks(){
 	}*/
 }
 
-tracks = findTracks();
+//tracks = findTracks();
+
 listTracks();
 
 //findTracks();//Uncomment to test.
