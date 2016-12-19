@@ -8,8 +8,8 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 const audioFolder = './audio_tracks';
 const musicFolder = '/home/pi/Music';
-//var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
-var tracks = {};
+var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
+//var tracks = {};
 var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
@@ -49,7 +49,8 @@ const findTracks = () => {
 	var index = 0;
 	var array = new Array();
 	
-	fs.readdirSync(audioFolder, (err, files) => {
+	/*
+	fs.readdir(audioFolder, (err, files) => {
 		files.forEach(file => {
 			tmpPath = './' + path.join(audioFolder, file);
 			console.log('From findTracks(), tmpPath is: ' + tmpPath);
@@ -62,9 +63,24 @@ const findTracks = () => {
 			index += 1;
 		});
 	});
+	*/
+	files = fs.readdirSync(audioFolder);
+	files.forEach(file => {
+			tmpPath = './' + path.join(audioFolder, file);
+			console.log('From findTracks(), tmpPath is: ' + tmpPath);
+			//array.push(tmpPath);
+			//tracks.push(tmpPath);
+			tracks[index] = tmpPath;
+			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
+			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
+
+			index += 1;
+	});
+	
 	if (tracks.length === 0) {
 		console.log('No tracks in "./audio_tracks"');
-		fs.readdirSync(musicFolder, (err, files) => {
+		/*
+		fs.readdir(musicFolder, (err, files) => {
 			files.forEach(file => {
 				//console.log(file);
 				//array.push(path.join(musicFolder, file));
@@ -75,6 +91,22 @@ const findTracks = () => {
 				index += 1;
 			});
 		});
+		*/
+		files = fs.readdirSync(musicFolder);
+		files.forEach(file => {
+			tmpPath = './' + path.join(musicFolder, file);
+			console.log('From findTracks(), tmpPath is: ' + tmpPath);
+			//array.push(tmpPath);
+			//tracks.push(tmpPath);
+			tracks[index] = tmpPath;
+			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
+			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
+
+			index += 1;
+	});
+
+	
+
 	}
 	console.log('tracks length: ' + tracks.length);
 	numTracks = tracks.length+1;
@@ -83,7 +115,7 @@ const findTracks = () => {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
 
-	listTracks();
+	//listTracks();
 
 };
 
@@ -92,7 +124,7 @@ const findTracks = () => {
 
 //tracks = findTracks();
 findTracks();
-//listTracks();
+listTracks();
 
 //findTracks();//Uncomment to test.
 /*
