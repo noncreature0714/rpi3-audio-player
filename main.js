@@ -12,7 +12,6 @@ var tracks = Array();//TODO: store paths to audio tracks, not the files themselv
 var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
-//TODO: store the  mp3s in ./audio_tracks in an array.
 //TODO: play the first file.
 
 //TODO: use jackd to configure the audio to play out of the headphone jack or hdmi (use parameters to detemine behaviour.)
@@ -41,42 +40,33 @@ const findTracks = () => {
 
 	files = fs.readdirSync(audioFolder);
 	files.forEach(file => {
-			//tmpPath = './' + path.join(audioFolder, file);
-			//tracks.push(tmpPath);
-			tracks.push('./' + path.join(audioFolder, file));
-			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
-			index += 1;
+		tracks.push('./' + path.join(audioFolder, file));
+		//console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
+		 index += 1;
 	});
 	
 	if (tracks.length === 0) {
 		console.log('No tracks in "./audio_tracks"');
 		files = fs.readdirSync(musicFolder);
 		files.forEach(file => {
-			//tmpPath = './' + path.join(musicFolder, file);
-			//tracks.push(tmpPath);
 			tracks.push('./' + path.join(musicFolder, file));
 			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 			index += 1;
 		});
 	}
-
-	console.log('tracks length: ' + tracks.length);
 	numTracks = tracks.length;
-	console.log('from findTracks(), it thinks there are ' + numTracks + '.');
 	if (tracks.length === 0) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
 };
 
-findTracks();
-listTracks();
+//findTracks();
 
-/*
 const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 	console.log('Play function called.');
 	if (!pathToTrack) {
 		//TODO: find tracks if param is null.
-		tracks = findTracks();
+		findTracks();
 	}
 	
 	if (tracks) {
@@ -92,7 +82,7 @@ const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 				currentTrack = tracks[++trackIndex];
 			}
 		} else {
-			console.log('invalid track path, trying to find a valid track.');
+			console.log('Invalid track path, trying to find a valid track.');
 			findTracks();
 		}
 		console.log('Current track is: ' + currentTrack + ' at index ' + trackIndex + '.');
@@ -104,14 +94,14 @@ const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 	console.log('getNextTrackAt() found: ' + currentTrack);
 	return currentTrack;	
 };
-
+//listTracks();
 //play(currentTrack);
 
 //NOTE: console stdin/out/err is for debug purposes atm.
 //console.log('spawning omxplayer globally.');
 //const omxplayer = spawn('omxplayer', [currentTrack]);
 
-const startPlayer = (pathToTrack) => {
+const play = (pathToTrack) => {
 	console.log('startPlayer function called.');
 	//getNextTrackAt(pathToTrack);
 	
@@ -140,12 +130,12 @@ const startPlayer = (pathToTrack) => {
 		console.log(`omxplayer to omxplayer on 'close'`);
 		console.log(`omxplayer ended with code ${code}`);
 		if(code === 0){
-			startPlayer();
+			play();
 		}
 	});
 }
-*/
-//startPlayer();
+
+play();
 
 //TODO: command line interpreter for cli only use.
 //TODO: play() function.
