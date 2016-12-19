@@ -20,19 +20,7 @@ var numTracks = 0;
  * use "amixer cset numid=3 2" to set audio to HDMI, or 
  * "amixer cset numid=3 0" to set to automatic
  **/
-/*var index = 0; 
 
-fs.readdir(audioFolder, (err, files) => {
-	var index = 0;
-	files.forEach(file => {
-		console.log(file);
-		tracks[index] = path.join('./audio_tracks',file);
-		console.log('file path is: ' + tracks[index]);
-		index += 1;
-	});
-});
-index = 0;
-*/
 
 const findTracks = () => {
 	//console.log('findTracks called.');
@@ -72,10 +60,13 @@ const play = (pathToTrack) => {
 	}
 	if (tracks) {
 		while(true){//This loop is temporary.
+		//TODO: make this while loop true as long as message
+		//is displayed.
 		//Play audio files in folder.
 			for (var i = 0; i < numTracks; i+=1){
 			//const omxplayer = spawn('omxplayer', ['./audio_tracks/bensound-ofeliasdream.mp3']);
-			const omxplayer = spawn('omxplayer', [tracks[i]]);
+			currentTrack = tracks[i];
+			const omxplayer = spawn('omxplayer', [currentTrack]);
 			}
 		}
 	}
@@ -85,13 +76,12 @@ play();
 //NOTE: console stdin/out/err is for debug purposes atm.
 
 omxplayer.stdout.on('data', (data) => {
-	console.log(`player started`);
 	console.log(`${data}`);
 });
 
 omxplayer.stderr.on('data', (data) => {
 	//TODO: catch and report errors
-	console.log(`${data}`);
+	console.log(`Error(s): ${data}`);
 });
 
 
@@ -100,6 +90,7 @@ omxplayer.on('close', (code) => {
 	//TODO: if omxplayer exits and there is an array, loop over the array, and  play the next track
 	//TODO: if omxplayer exits and there is only one song, loop.
 	console.log(`omxplayer ended with code ${code}`);
+	
 });
 
 //TODO: command line interpreter for cli only use.
