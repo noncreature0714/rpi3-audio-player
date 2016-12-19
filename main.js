@@ -30,7 +30,7 @@ const findTracks = () => {
 		files.forEach(file => {
 			//console.log(file);
 			//console.log('index of: ' + index);
-			tracks[index] = path.join(audioFolder, file);
+			tracks.push(path.join(audioFolder, file));
 			console.log('file path is: ' + tracks[index]);
 			index += 1;
 		});
@@ -39,7 +39,7 @@ const findTracks = () => {
 		fs.readdir(musicFolder, (err, files) => {
 			files.forEach(file => {
 				//console.log(file);
-				tracks[index] = path.join(musicFolder, file);
+				tracks.push(path.join(musicFolder, file));
 				//console.log('file path is: ' + tracks[index]);
 				index += 1;
 			});
@@ -88,6 +88,17 @@ const getNextTrackFrom = (pathToTrack) => {//Play only get get the next track.
 	return currentTrack;	
 };
 
+function listTracks(){
+	console.log('Listing tracks:')
+	tracks.forEach(track => {
+			console.log(track);
+		}
+	);
+}
+
+tracks = findTracks();
+listTracks();
+
 //play(currentTrack);
 
 //NOTE: console stdin/out/err is for debug purposes atm.
@@ -128,7 +139,7 @@ const startPlayer = (pathToTrack) => {
 	});
 }
 
-startPlayer();
+//startPlayer();
 
 //TODO: command line interpreter for cli only use.
 //TODO: play() function.
