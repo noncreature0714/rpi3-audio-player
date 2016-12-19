@@ -9,6 +9,7 @@ const path = require('path');
 const audioFolder = './audio_tracks';
 const musicFolder = '/home/pi/Music';
 var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
+var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
 //TODO: store the  mp3s in ./audio_tracks in an array.
@@ -52,7 +53,7 @@ const findTracks = () => {
 
 findTracks();//Uncomment to test.
 
-const omxplayer = spawn('omxplayer', [tracks[0]]);
+
 
 const play = (pathToTrack) => {
 	console.log('Play function called.');
@@ -64,21 +65,24 @@ const play = (pathToTrack) => {
 
 		if (tracks.length === 1) {
 			console.log('Only one track to play.');
-			currentTrack = tracks[0];
+			currentTrack = tracks[trackIndex];
 		} else if (currentTrack === tracks[tracks.length-1]){
 			console.log('Reached the last file, starting over.');
-			currentTrack = tracks[0]
+			trackIndex = 0;
+			currentTrack = tracks[trackIndex];
+		} else {
+			currentTrack = tracks[++trackIndex];
 		}
-
-		console.log('Current track is: ' + currentTrack);
-		const omxplayer = spawn('omxplayer', [currentTrack]);
+		console.log('Current track is: ' + currentTrack + ' at index ' + trackIndex + '.');
 
 	}
 };
 
-play(tracks[0]);
+play();
 
 //NOTE: console stdin/out/err is for debug purposes atm.
+
+const omxplayer = spawn('omxplayer', [currentTrack]);
 
 omxplayer.stdout.on('data', (data) => {
 	console.log(`rpi3 to omxplayer stdout.`);
