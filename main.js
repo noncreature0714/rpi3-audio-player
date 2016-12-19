@@ -28,6 +28,7 @@ const listTracks = () => {
 		console.log('There are no tracks!');
 		return;
 	} else {
+		console.log('There are ' + tracks.length + ' tracks.');
 		tracks.forEach(track => {
 			console.log(track);
 		});
@@ -42,9 +43,8 @@ const findTracks = () => {
 	files.forEach(file => {
 			tmpPath = './' + path.join(audioFolder, file);
 			console.log('From findTracks(), tmpPath is: ' + tmpPath);
-			//array.push(tmpPath);
-			//tracks.push(tmpPath);
-			tracks[index] = tmpPath;
+			tracks.push(tmpPath);
+			//tracks[index] = tmpPath;
 			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
 			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 
@@ -57,9 +57,8 @@ const findTracks = () => {
 		files.forEach(file => {
 			tmpPath = './' + path.join(musicFolder, file);
 			console.log('From findTracks(), tmpPath is: ' + tmpPath);
-			//array.push(tmpPath);
-			//tracks.push(tmpPath);
-			tracks[index] = tmpPath;
+			tracks.push(tmpPath);
+			//tracks[index] = tmpPath;
 			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + array[index]);
 			console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 
