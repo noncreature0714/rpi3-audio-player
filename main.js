@@ -212,11 +212,7 @@ var myArgs = process.argv.slice(2);
 
 myArgs.forEach((value, index) => {
 	//TODO: figure out command list.
-	if(isVerifiedPathAndMp3FileTypeAt(value)){
-		console.log('file paths passed is: ' + value);
-		play(value);
-	} else {
-		switch(value){
+	switch(value){
 		case "list":
 			console.log('Listing avaiable tracks and exiting:');
 			process.on('exit', functionsDictionary[value]);
@@ -243,6 +239,5 @@ myArgs.forEach((value, index) => {
 			break;
 		default:
 			console.log('Unknown operation: ' + value);
-		}
 	}
 });
