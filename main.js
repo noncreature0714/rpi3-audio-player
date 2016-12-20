@@ -88,12 +88,12 @@ const getNextTrackFrom = (pathToTrack) => {
 		findTracks();
 	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){
 		process.emitWarning(warnMessage);
-		process.abort();
+		process.exit(1);
 	}
 	
 	if(!tracks){
-		process.emitWarning('Not tracks to play, exiting...');
-		process.abort();
+		console.log('Not tracks to play, exiting...');
+		process.exit(1);
 	} else {
 		if(currentTrack){
 			if (tracks.length === 1) {//If there's only one track, keep playing it.
