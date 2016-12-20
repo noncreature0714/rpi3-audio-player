@@ -115,13 +115,16 @@ const addOneTrackToTracks = (track) => {
 }
 
 const addFolderToTracks = (folder)=> {
-	files = fs.readdirSync(folder);
+	if(isFileOrDirectory(folder)){
+		files = fs.readdirSync(folder);
 	console.log('From folder: ' + folder);
 	console.log('Attempting to add files: ' + files);
 	files.forEach(file => {
 		var track = path.join(folder, file);
 		addOneTrackToTracks(track);
 	});
+	}
+	
 }
 
 
