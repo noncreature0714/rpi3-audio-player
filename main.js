@@ -87,7 +87,7 @@ const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
 		findTracks();
 	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){
-		consol.log(warnMessage);
+		console.log(warnMessage);
 		process.abort();
 	} else if (fs.existsSync(pathToTrack)){
 		audioFolder = pathToTrack;
