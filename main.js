@@ -8,6 +8,7 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 const audioFolder = './audio_tracks';
 const musicFolder = '/home/pi/Music';
+const audioTestFolder = './audio_test_tracks';
 var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
 var trackIndex = 0;
 var currentTrack;
@@ -41,18 +42,22 @@ const listTracks = () => {
 const findTracks = () => {
 	var index = 0;
 
-	files = fs.readdirSync(audioFolder);
+	if(!fs.existsSync(audioFolder)){
+		fs.mkdirSync('./audio_tracks');
+	}
+
+	files = fs.readdirSync(musicFolder);
 	files.forEach(file => {
-		tracks.push('./' + path.join(audioFolder, file));
+		tracks.push('./' + path.join(musicFolder, file));
 		//console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 		 index += 1;
 	});
 	
 	if (tracks.length === 0) {
-		console.log(`No tracks in "${audioFolder}"`);
-		files = fs.readdirSync(musicFolder);
+		console.log(`No tracks in "${musicFolder}"`);
+		files = fs.readdirSync(audioTestFolder);
 		files.forEach(file => {
-			tracks.push('./' + path.join(musicFolder, file));
+			tracks.push('./' + path.join(audioTestFolder, file));
 			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
 			index += 1;
 		});
