@@ -35,8 +35,8 @@ process.argv.forEach((value, index) => {
 	switch(value){
 		case "list":
 			process.emit('Listing avaiable tracks and exiting:');
-			functionsDictionary[value];
-			process.abort();
+			process.on('exit', functionsDictionary[value]);
+			process.exit(0);
 			break;
 	}
 });
