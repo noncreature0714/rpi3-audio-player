@@ -30,11 +30,15 @@ var filePath = "s";
  **/
 
 const isTracksEmpty = () => {
-	return tracks.length === 0;
+	var value = tracks.length === 0;
+	console.log('Checking if tracks array is empty: ' + value);
+	return value;
 }
 
 const isMp3File = (filePath) => {
-	return path.extname(filePath) === '.mp3';
+	var value = path.extname(filePath) === '.mp3';
+	console.log('Checking if file is mp3: ' + value);
+	return value;
 }
 
 const isOneTrack = () => {
@@ -46,15 +50,20 @@ const isAtEndOfTracks = () => {
 }
 
 const isFileOrDirectory = (fileOrDirectory) => {
-	return fs.existsSync(fileOrDirectory);
+	var value = fs.existsSync(fileOrDirectory);
+	console.log('Checking if path is a file or directory: ' + value);
+	return value;
 }
 
 const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
-	return isFileOrDirectory(filePath) && isMp3File(filePath);
+	var value = isFileOrDirectory(filePath) && isMp3File(filePath)
+	console.log('Checking if file path is good and is mp3: ' + value);
+	return value;
 }
 
 const isFolderOfMp3s = (folderPath) => {
 	var areMp3Files = false;
+	console.log('Checking if there are mp3s in folder: ' + folderPath);
 	if(isFileOrDirectory(folderPath)){
 		files = fs.readdirSync(folderPath);
 		if (!files.length === 0) {
@@ -85,6 +94,7 @@ const listTracks = () => {
 }
 
 const addOneTrackToTracks = (track) => {
+	console.log('Attempting to add one tracks: ' + track);
 	if(isMp3File(track)){
 		tracks.push(track);
 	}
@@ -92,6 +102,8 @@ const addOneTrackToTracks = (track) => {
 
 const addFolderToTracks = (folder)=> {
 	files = fs.readdirSync(folder);
+	console.log('From folder: ' + folder);
+	console.log('Attempting to add files: ' + files);
 	files.forEach(file => {
 		var track = path.join(folder, file);
 		addOneTrackToTracks(track);
@@ -190,8 +202,6 @@ const playTest = () => {
 	play();
 }
 
-//play();
-
 //TODO: command line interpreter for cli only use.
 //TODO: stop() function. (same as exit()).
 //TODO: pauseOrResume() function.
@@ -221,8 +231,6 @@ const functionsDictionary = {
 }
 
 var myArgs = process.argv.slice(2);
-
-
 
 myArgs.forEach((value, index) => {
 	//TODO: figure out command list.
