@@ -18,6 +18,7 @@ var monoChannel = false;
 var audioRoute = 1; //0=auto, 1=headphone, 2=HDMI 
 var volume;
 var isTest = false;
+var filePath = "";
 
 //TODO: play the first file.
 
