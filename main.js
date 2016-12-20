@@ -115,6 +115,7 @@ const getNextTrackFrom = (pathToTrack) => {
 };
 
 const play = (pathToTrack) => {	
+	//TODO: if path to track is single file, play on loop.
 	track = getNextTrackFrom(pathToTrack);
 	
 	console.log('In startPlayer(), starting with track ' + track);
@@ -176,6 +177,7 @@ const functionsDictionary = {
 process.argv.forEach((value, index) => {
 	//TODO: figure out command list.
 	if(isVerifiedPathAndMp3FileTypeAt(value)){
+		console.log('file paths passed is: ' + value);
 		play(value);
 	} else {
 		switch(value){
