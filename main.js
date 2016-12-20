@@ -29,6 +29,16 @@ var filePath = "s";
  * "amixer cset numid=3 0" to set to automatic
  **/
 
+const incrementTrackIndex = () => {
+	console.log('Incrementing trackIndex from "' + trackIndex++ + '" to "' + trackIndex + '.');
+	trackIndex;
+}
+
+const getTrackIndex = () => {
+	console.log('Getting track index: ' + trackIndex);
+	return trackIndex;
+}
+
 const isTracksEmpty = () => {
 	var value = tracks.length === 0;
 	console.log('Checking if tracks array is empty: ' + value);
@@ -65,16 +75,20 @@ const isFolderOfMp3s = (folderPath) => {
 	var areMp3Files = false;
 	console.log('Checking if there are mp3s in folder: ' + folderPath);
 	if(isFileOrDirectory(folderPath)){
-		files = fs.readdirSync(folderPath);
-		if (!files.length === 0) {
+		if(files = fs.readdirSync(folderPath)){
+			if (!files.length === 0) {
 			files.forEach(file => { 
 				if (isMp3File(file)) {
 					areMp3Files = true;
 				}
 			});
+			} else {
+				console.log('No files in the folder.');
+			} 
 		} else {
-			console.log('No files in the folder.');
+			areMp3Files = false;
 		}
+		
 	} else {
 		console.log(folderPath + ' is not a valid path or a folder name.');
 	}
