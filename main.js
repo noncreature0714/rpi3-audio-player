@@ -17,7 +17,7 @@ var warnMessage;
 var monoChannel = false;
 var audioRoute = 1; //0=auto, 1=headphone, 2=HDMI 
 var volume;
-var test = false;
+var isTest = false;
 
 //TODO: play the first file.
 
@@ -104,7 +104,7 @@ const load = (fileOrFolder) => { //For persistent storage.
 } 
 
 const getTracks = () => {
-	if(test){
+	if(isTest){
 		addFolderToTracks(audioTestFolder);
 	} else {
 		addFolderToTracks(musicFolder);
@@ -184,8 +184,8 @@ const play = (pathToTrack) => {
 	});
 }
 
-const test = () => {
-	test = true;
+const playTest = () => {
+	isTest = true;
 	getTracks();
 	play();
 }
@@ -226,7 +226,7 @@ var myArgs = process.argv.slice(2);
 
 myArgs.forEach((value, index) => {
 	//TODO: figure out command list.
-	test = false;
+	isTest = false;
 	switch(value){
 		case "list":
 			console.log('Listing avaiable tracks and exiting:');
@@ -242,8 +242,7 @@ myArgs.forEach((value, index) => {
 			break;
 		case 'test':
 			console.log('Testing 1, 2, 3...');
-			test = true;
-			play();
+			playTest();
 			break;
 		default:
 			console.log('Unknown operation: ' + value);
