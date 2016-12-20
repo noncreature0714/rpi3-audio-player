@@ -154,7 +154,8 @@ const getNextTrackFrom = (pathToTrack) => {
 	return currentTrack;	
 };
 
-const play = (pathToTrack) => {	
+const play = (pathToTrack) => {
+	test = false;
 	//TODO: if path to track is single file, play on loop.
 	track = getNextTrackFrom(pathToTrack);
 	
@@ -183,7 +184,7 @@ const play = (pathToTrack) => {
 	});
 }
 
-play();
+//play();
 
 const playTest = () => {
 	isTest = true;
