@@ -230,12 +230,14 @@ myArgs.forEach((value, index) => {
 	switch(value){
 		case "list":
 			console.log('Listing avaiable tracks and exiting:');
-			process.on('exit', functionsDictionary[value]);
+			getTracks();
+			listTracks();
 			process.exit(0);
 			break;
 		case "play":
-			filePath = index+1 || "";
-			play(filepath);
+			console.log('Playing...');
+			(myArgs[index+1]) ? play(myArgs[index+1]) : play();
+			break;
 		case "load":
 			console.log('Folder loaded, playing...')
 			play();
@@ -246,6 +248,7 @@ myArgs.forEach((value, index) => {
 			break;
 		default:
 			console.log('Unknown operation: ' + value);
+			break;
 	}
 });
 
