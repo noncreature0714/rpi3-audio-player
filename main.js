@@ -188,6 +188,7 @@ process.argv.forEach((value, index) => {
 			break;
 		case "play":
 			//TODO: work on this.
+			play();
 			break;
 	
 		}
