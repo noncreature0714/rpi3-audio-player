@@ -33,7 +33,7 @@ const isTracksEmpty = () => {
 }
 
 const isMp3File = (file) => {
-	return (path.extname(file) === '.mp3') ? true : false;
+	return path.extname(file) === '.mp3';
 }
 
 const isOneTrack = () => {
