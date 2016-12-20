@@ -35,7 +35,6 @@ const inspectFolderForMp3 = (folderPath) => {
 			files.forEach(file =>{
 				if(fs.extname(file) === 'mp3'){
 					areMp3Files = true;
-					break;
 				}
 			});
 		} else {
