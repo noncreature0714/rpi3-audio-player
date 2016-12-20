@@ -91,7 +91,7 @@ const addOneTrackToTracks = (track) => {
 
 const addFolderToTracks = (folder)=> {
 	files = fs.readdirSync(folder);
-	files.forEach(file => {
+	files.forEach( file => {
 		var track = path.join(folder, file);
 		addOneTrackToTracks(track);
 	});
