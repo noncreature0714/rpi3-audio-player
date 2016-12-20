@@ -141,6 +141,9 @@ const play = (pathToTrack) => {
 		console.log(`omxplayer ended with code ${code}`);
 		if(code === 0){
 			play(track);
+		} else if (code === 1) {
+			process.emitWarning('The was an unpermitted operation, attempting to restart.');
+			play();
 		}
 		//TODO: add conditions for other error codes.
 	});
@@ -149,7 +152,6 @@ const play = (pathToTrack) => {
 play();
 
 //TODO: command line interpreter for cli only use.
-//TODO: play() function.
 //TODO: stop() function. (same as exit()).
 //TODO: pauseOrResume() function.
 //TODO: decrease speed function.
