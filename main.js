@@ -4,9 +4,9 @@ controllable from the parent process.*/
 
 const os = require('os');
 const fs = require('fs');
+const storage = require('node-persist');
 const spawn = require('child_process').spawn;
 const path = require('path');
-const audioFolder = './audio_tracks';
 const musicFolder = '/home/pi/Music';
 const audioTestFolder = './audio_test_tracks';
 var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
@@ -17,6 +17,7 @@ var warnMessage;
 var monoChannel = false;
 var audioRoute = 1; //0=auto, 1=headphone, 2=HDMI 
 var volume;
+var test = false;
 
 //TODO: play the first file.
 
@@ -27,18 +28,39 @@ var volume;
  * "amixer cset numid=3 0" to set to automatic
  **/
 
-const isMp3File = (file) =>{
+const isTracksEmpty = () => {
+	return tracks.length === 0;
+}
+
+const isMp3File = (file) => {
 	return (path.extname(file) === '.mp3') ? true : false;
+}
+
+const isOneTrack = () => {
+	return tracks.length === 1;
+}
+
+const isAtEndOfTracks = () => {
+	return trackIndex === tracks.length-1;
+}
+
+const isFileOrDirectory = (fileOrDirectory) => {
+	return fs.existsSync(fileOrDirectory);
+}
+
+const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
+	return isFileOrDirectory(filePath) && isMp3File(filePath);
 }
 
 const inspectFolderForMp3 = (folderPath) => {
 	var areMp3Files = false;
-	if(fs.existsSync(folderPath)){
+	if(isFileOrDirectory(folderPath)){
 		files = fs.readdirSync(folderPath);
 		if (!files.length === 0) {
-			files.forEach(file =>{
-				if(isMp3File(file)){
+			files.forEach(file => { 
+				if (isMp3File(file)) {
 					areMp3Files = true;
+					break;
 				}
 			});
 		} else {
@@ -49,8 +71,6 @@ const inspectFolderForMp3 = (folderPath) => {
 	}
 	return areMp3Files;
 }
-
-
 
 const listTracks = () => {
 	if(!tracks){
@@ -64,64 +84,53 @@ const listTracks = () => {
 	}
 }
 
-const findTracks = () => {
-	var index = 0;
-
-	if(!fs.existsSync(audioFolder)){
-		fs.mkdirSync('./audio_tracks');
+const addOneTrackToTracks = (track) => {
+	if(isMp3File(track)){
+		tracks.push(track);
 	}
+}
 
-	files = fs.readdirSync(musicFolder);
+const addFolderToTracks = (folder)=> {
+	files = fs.readdirSync(folder);
 	files.forEach(file => {
-		var track = path.join(musicFolder, file);
-		if(path.extname(track) === '.mp3'){
-			tracks.push(track);
-		}
-		index += 1;
+		var track = path.join(folder, file);
+		addOneTrackToTracks(track);
 	});
-	
-	if (tracks.length === 0) {
-		console.log(`No tracks in "${musicFolder}"`);
-		files = fs.readdirSync(audioTestFolder);
-		files.forEach(file => {
-			var track = path.join(audioTestFolder, file);
-			if(path.extname(track) === '.mp3'){
-				tracks.push('./' + track);
-			}
-			index += 1;
-		});
+}
+
+
+
+const load = (fileOrFolder) => { //For persistent storage.
+	//TODO: figure this out.
+} 
+
+const getTracks = () => {
+	if(test){
+		addFolderToTracks(audioTestFolder);
+	} else {
+		addFolderToTracks(musicFolder);
 	}
+
 	numTracks = tracks.length;
-	if (tracks.length === 0) {
+	if (isTracksEmpty()) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
+		process.exit('1');
 	}
 };
 
-const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
-	var isGood = true;
-	if (!filePath) { //If argument is void, find tracks to play.
-		findTracks();
-	} else if (fs.existsSync(filePath)) { //If the argument is a valid path, then...
-		if (path.extname(filePath) !== '.mp3') {
-			warnMessage = 'Invalid file type, rpi3-audio-player only plays mp3 files. Exiting...';
-			isGood = false;
-		} else {
-			currentTrack = filePath;
-			isGood = true;
-		}
-	} else {
-		warnMessage = 'Invalid file path! Exiting... ';
-		isGood = false;
-	}
-	return isGood;
-}
+
+
 
 const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
-		findTracks();
+		getTracks();
 	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){
-		console.log(warnMessage);
+		console.log('Not a valid path or not an mp3 file.');
 		process.exit(1);
+	}
+
+	if (isMp3File(pathToTrack) && !tracks){
+		addOneTrackToTracks(pathToTrack);
 	}
 	
 	if(!tracks){
@@ -129,12 +138,12 @@ const getNextTrackFrom = (pathToTrack) => {
 		process.exit(1);
 	} else {
 		if(currentTrack){
-			if (tracks.length === 1) {//If there's only one track, keep playing it.
+			if (isOneTrack()) {//If there's only one track, keep playing it.
 				console.log('Only one track to play, looping ' + currentTrack);
 				trackIndex = 0;
 				currentTrack = tracks[trackIndex];
 			} else {
-				(trackIndex===tracks.length-1) ? trackIndex = 0 : ++trackIndex;
+				(isAtEndOfTracks()) ? trackIndex = 0 : ++trackIndex;
 				console.log('trackIndex is: ' + trackIndex);
 				currentTrack = tracks[trackIndex];
 			}
@@ -164,7 +173,6 @@ const play = (pathToTrack) => {
 		console.log(`Error(s): ${data}`);
 	});
 
-
 	omxplayer.on('close', (code) => {
 		console.log(`omxplayer ended with code ${code}`);
 		if(code === 0){
@@ -178,8 +186,9 @@ const play = (pathToTrack) => {
 }
 
 const test = () => {
-	findTracks();
-
+	test = true;
+	getTracks();
+	play();
 }
 
 //play();
@@ -206,8 +215,8 @@ const test = () => {
 //TODO: set number of audio channels function (max is 2)
 //TODO: set audio route function with amixer.
 const functionsDictionary = {
-	"list": ()=>{findTracks();listTracks()}, 
-	"load": (folder)=>{audioFolder = folder; process.emitWarning(`This changes how the applicaiton works, proceed with caution, or place audio in ~/Music!`)}, 
+	"list": ()=>{getTracks();listTracks()}, 
+	"load": (folder)=>{audioFolder = folder; console.log(`This changes how the applicaiton works, proceed with caution, or place audio in ~/Music!`)}, 
 	"test": ()=>{const omxplayer = spawn('omxplayer', './audio_files/bensound-cute.mp3')},
 	"play": (audioPath)=>{ play(audioPath)}
 }
@@ -218,6 +227,7 @@ var myArgs = process.argv.slice(2);
 
 myArgs.forEach((value, index) => {
 	//TODO: figure out command list.
+	test = false;
 	switch(value){
 		case "list":
 			console.log('Listing avaiable tracks and exiting:');
@@ -225,25 +235,20 @@ myArgs.forEach((value, index) => {
 			process.exit(0);
 			break;
 		case "play":
-			//TODO: work on this.
-			myArgs.shift();
-			var pathToTrack;
-			if(isVerifiedPathAndMp3FileTypeAt(value)){
-				pathToTrack = value;
-			} else {
-				myArgs.unshift(value);
-			}
-			console.log('Playing tracks.'); 
-			process.on('exit', functionsDictionary[value](pathToTrack));
-			break;
+			filePath = index+1 || null
+			play(filepath);
 		case "load":
-			if (fs.existsSync(value)){
-				audioFolder = value;
-			}
 			console.log('Folder loaded, playing...')
+			play();
+			break;
+		case 'test':
+			console.log('Testing 1, 2, 3...');
+			test = true;
 			play();
 			break;
 		default:
 			console.log('Unknown operation: ' + value);
 	}
 });
+
+//TODO: figure out exports.
