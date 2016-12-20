@@ -210,8 +210,8 @@ myArgs.forEach((value, index) => {
 			play();
 			break;
 		case "test":
-			audioFolder = './audio_test_tracks';
-			play();
+			var pathTo = './audio_test_tracks';
+			play(pathTo);
 		default:
 			console.log('Unknown operation: ' + value);
 			break;
