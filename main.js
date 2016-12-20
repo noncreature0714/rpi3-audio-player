@@ -33,7 +33,7 @@ const inspectFolderForMp3 = (folderPath) => {
 		files = fs.readdirSync(folderPath);
 		if (!files.length === 0) {
 			files.forEach(file =>{
-				if(fs.extname(file) === 'mp3'){
+				if(path.extname(file) === 'mp3'){
 					areMp3Files = true;
 				}
 			});
@@ -68,7 +68,7 @@ const findTracks = () => {
 	files = fs.readdirSync(musicFolder);
 	files.forEach(file => {
 		var track = path.join(musicFolder, file);
-		if(fs.extname(track) === '.mp3'){
+		if(path.extname(track) === '.mp3'){
 			tracks.push('./' + track);
 		}
 		index += 1;
@@ -79,7 +79,7 @@ const findTracks = () => {
 		files = fs.readdirSync(audioTestFolder);
 		files.forEach(file => {
 			var track = path.join(audioTestFolder, file);
-			if(fs.extname(track) === '.mp3'){
+			if(path.extname(track) === '.mp3'){
 				tracks.push('./' + track);
 			}
 			index += 1;
