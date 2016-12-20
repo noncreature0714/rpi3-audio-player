@@ -101,11 +101,12 @@ const getNextTrackFrom = (pathToTrack) => {
 				trackIndex = 0;
 				currentTrack = tracks[trackIndex];
 			} else {
-				if(trackIndex===tracks.length){
+				if(trackIndex===tracks.length-1){
 					trackIndex = 0;
 				} else {
 					++trackIndex;
 				}
+				console.log('from "getNextTrackFrom()," trackIndex is:' + trackIndex);
 				currentTrack = tracks[trackIndex];
 			}
 		} else {
@@ -131,26 +132,21 @@ const play = (pathToTrack) => {
 	const omxplayer = spawn('omxplayer', [track]);
 	
 	omxplayer.stdout.on('data', (data) => {
-		console.log(`rpi3 to omxplayer stdout.`);
 		console.log(`${data}`);
 	});
 
 	omxplayer.stderr.on('data', (data) => {
-		//TODO: catch and report errors
-		//console.log(`rpi3 to omxplayer stderr.`);
+		//TODO: try to recover from recoverable errors.
 		console.log(`Error(s): ${data}`);
 	});
 
 
 	omxplayer.on('close', (code) => {
-		//TODO: if omxplayer exits and there are no tracks, report.
-		//TODO: if omxplayer exits and there is an array, loop over the array, and  play the next track
-		//TODO: if omxplayer exits and there is only one song, loop.
-		//console.log(`omxplayer to omxplayer on 'close'`);
 		console.log(`omxplayer ended with code ${code}`);
 		if(code === 0){
 			play(track);
 		}
+		//TODO: add conditions for other error codes.
 	});
 }
 
