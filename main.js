@@ -13,6 +13,14 @@ var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
 var warnMessage;
+var monoChannel = false;
+var audioRoute = 1; //0=auto, 1=headphone, 2=HDMI 
+var volume;
+const functionsDictionary = {
+	"list": ()=>{findTracks();listTracks()}, 
+	"load": (folder)=>{audioFolder = folder; process.emitWarning(`This changes how the applicaiton works, proceed with caution, or place audio in ~/Music!`)}, 
+	"test": ()=>{const omxplayer = spawn('omxplayer', './audio_files/bensound-cute.mp3')}
+}
 //TODO: play the first file.
 
 //TODO: use jackd to configure the audio to play out of the headphone jack or hdmi (use parameters to detemine behaviour.)
@@ -21,6 +29,17 @@ var warnMessage;
  * use "amixer cset numid=3 2" to set audio to HDMI, or 
  * "amixer cset numid=3 0" to set to automatic
  **/
+
+process.argv.forEach((value, index) => {
+	//TODO: figure out command list.
+	switch(value){
+		case "list":
+			process.emit('Listing avaiable tracks and exiting:');
+			functionsDictionary[value];
+			process.abort();
+			break;
+	}
+});
 
 const listTracks = () => {
 	console.log('listTracks() called, listing tracks')
@@ -47,7 +66,7 @@ const findTracks = () => {
 	});
 	
 	if (tracks.length === 0) {
-		console.log('No tracks in "./audio_tracks"');
+		console.log(`No tracks in "${audioFolder}"`);
 		files = fs.readdirSync(musicFolder);
 		files.forEach(file => {
 			tracks.push('./' + path.join(musicFolder, file));
@@ -60,8 +79,6 @@ const findTracks = () => {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
 	}
 };
-
-//findTracks();
 
 const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 	var isGood = true;
@@ -114,13 +131,7 @@ const getNextTrackFrom = (pathToTrack) => {
 	return currentTrack;	
 };
 
-//NOTE: console stdin/out/err is for debug purposes atm.
-//console.log('spawning omxplayer globally.');
-//const omxplayer = spawn('omxplayer', [currentTrack]);
-
-const play = (pathToTrack) => {
-	console.log('startPlayer function called.');
-	
+const play = (pathToTrack) => {	
 	track = getNextTrackFrom(pathToTrack);
 	
 	console.log('In startPlayer(), starting with track ' + track);
@@ -169,7 +180,6 @@ play();
 //TODO: seekAhead30Seconds() function (safe, makes sure to not skip past the end of the stream
 //TODO: seekBack600seconds() (safe seek)
 //TODO: seekAhead600seconds() (safe seek)
-//TODO: check for tracks function.
 //TODO: add tracks function.
 //TODO: set number of audio channels function (max is 2)
 //TODO: set audio route function with amixer.
