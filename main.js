@@ -16,11 +16,7 @@ var warnMessage;
 var monoChannel = false;
 var audioRoute = 1; //0=auto, 1=headphone, 2=HDMI 
 var volume;
-const functionsDictionary = {
-	"list": ()=>{findTracks();listTracks()}, 
-	"load": (folder)=>{audioFolder = folder; process.emitWarning(`This changes how the applicaiton works, proceed with caution, or place audio in ~/Music!`)}, 
-	"test": ()=>{const omxplayer = spawn('omxplayer', './audio_files/bensound-cute.mp3')}
-}
+
 //TODO: play the first file.
 
 //TODO: use jackd to configure the audio to play out of the headphone jack or hdmi (use parameters to detemine behaviour.)
@@ -29,17 +25,6 @@ const functionsDictionary = {
  * use "amixer cset numid=3 2" to set audio to HDMI, or 
  * "amixer cset numid=3 0" to set to automatic
  **/
-
-process.argv.forEach((value, index) => {
-	//TODO: figure out command list.
-	switch(value){
-		case "list":
-			process.emit('Listing avaiable tracks and exiting:');
-			process.on('exit', functionsDictionary[value]);
-			process.exit(0);
-			break;
-	}
-});
 
 const listTracks = () => {
 	console.log('listTracks() called, listing tracks')
@@ -160,7 +145,7 @@ const play = (pathToTrack) => {
 	});
 }
 
-play();
+//play();
 
 //TODO: command line interpreter for cli only use.
 //TODO: stop() function. (same as exit()).
@@ -183,3 +168,28 @@ play();
 //TODO: add tracks function.
 //TODO: set number of audio channels function (max is 2)
 //TODO: set audio route function with amixer.
+const functionsDictionary = {
+	"list": ()=>{findTracks();listTracks()}, 
+	"load": (folder)=>{audioFolder = folder; process.emitWarning(`This changes how the applicaiton works, proceed with caution, or place audio in ~/Music!`)}, 
+	"test": ()=>{const omxplayer = spawn('omxplayer', './audio_files/bensound-cute.mp3')},
+	"play": (audioPath)=>{ play(audioPath)}
+}
+
+process.argv.forEach((value, index) => {
+	//TODO: figure out command list.
+	if(isVerifiedPathAndMp3FileTypeAt(value)){
+		play(value);
+	} else {
+		switch(value){
+		case "list":
+			process.emit('Listing avaiable tracks and exiting:');
+			process.on('exit', functionsDictionary[value]);
+			process.exit(0);
+			break;
+		case "play":
+			//TODO: work on this.
+			break;
+	
+		}
+	}
+});
