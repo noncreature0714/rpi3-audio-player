@@ -60,7 +60,6 @@ const inspectFolderForMp3 = (folderPath) => {
 			files.forEach(file => { 
 				if (isMp3File(file)) {
 					areMp3Files = true;
-					break;
 				}
 			});
 		} else {
