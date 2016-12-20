@@ -155,12 +155,10 @@ const getNextTrackFrom = (pathToTrack) => {
 };
 
 const play = (pathToTrack) => {
-	test = false;
 	//TODO: if path to track is single file, play on loop.
 	track = getNextTrackFrom(pathToTrack);
 	
-	console.log('In play(), starting with track ' + track);
-	console.log('spawning omxplayer as child_process.');
+	console.log('Track: ' + track);
 	const omxplayer = spawn('omxplayer', [track]);
 	
 	omxplayer.stdout.on('data', (data) => {
@@ -173,7 +171,7 @@ const play = (pathToTrack) => {
 	});
 
 	omxplayer.on('close', (code) => {
-		console.log(`omxplayer ended with code ${code}`);
+		//console.log(`Child process ended with code ${code}`);
 		if(code === 0){
 			play(track);
 		} else if (code === 1) {
