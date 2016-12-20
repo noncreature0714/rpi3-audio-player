@@ -27,6 +27,26 @@ var volume;
  * "amixer cset numid=3 0" to set to automatic
  **/
 
+const inspectFolderForMp3 = (folderPath) => {
+	var areMp3Files = false;
+	if(fs.existsSync(folderPath)){
+		files = fs.readdirSync(folderPath);
+		if (!files.length === 0) {
+			files.forEach(file =>{
+				if(fs.extname(file) === 'mp3'){
+					areMp3Files = true;
+					break;
+				}
+			});
+		} else {
+			console.log('No files in the folder.');
+		}
+	} else {
+		console.log(folderPath + ' is not a valid path or a folder name.');
+	}
+	return areMp3Files;
+}
+
 const listTracks = () => {
 	if(!tracks){
 		console.log('There are no tracks!');
@@ -90,32 +110,12 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 	}
 	return isGood;
 }
-	
-const inspectFolderForMp3 = (folderPath) => {
-	var areMp3Files = false;
-	if(fs.existsSync(folderPath)){
-		files = fs.readdirSync(folderPath);
-		if (!files.length === 0) {
-			files.forEach(file =>{
-				if(fs.extname(file) === 'mp3'){
-					areMp3Files = true;
-					break;
-				}
-			});
-		} else {
-			console.log('No files in the folder.');
-		}
-	} else {
-		console.log(folderPath + ' is not a valid path or a folder name.');
-	}
-	return areMp3Files;
-}
 
 const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
 		findTracks();
 	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){
-		process.emitWarning(warnMessage);
+		console.log(warnMessage);
 		process.exit(1);
 	}
 	
@@ -125,7 +125,7 @@ const getNextTrackFrom = (pathToTrack) => {
 	} else {
 		if(currentTrack){
 			if (tracks.length === 1) {//If there's only one track, keep playing it.
-				process.emitWarning('Only one track to play, looping ' + currentTrack);
+				console.log('Only one track to play, looping ' + currentTrack);
 				trackIndex = 0;
 				currentTrack = tracks[trackIndex];
 			} else {
@@ -146,7 +146,7 @@ const play = (pathToTrack) => {
 	//TODO: if path to track is single file, play on loop.
 	track = getNextTrackFrom(pathToTrack);
 	
-	console.log('In startPlayer(), starting with track ' + track);
+	console.log('In play(), starting with track ' + track);
 	console.log('spawning omxplayer as child_process.');
 	const omxplayer = spawn('omxplayer', [track]);
 	
