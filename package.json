@@ -1,21 +1,23 @@
 {
   "name": "rpi3-audio-player",
-  "version": "0.1.13",
+  "version": "0.1.14"
   "description": "An Node.js audio player custom built for the Raspberry Pi 3.",
   "main": "main.js",
   "license": "MIT",
   "author": "William W Brubaker",
   "repository": {
-    "type" : "git",
+    "type": "git",
     "url": "https://github.com/NonCreature0714/rpi3-audio-player.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-persist": "^2.0.7"
+  },
   "scripts": {
     "test": "test"
   },
-  "bugs" : {
-    "url" : "https://github.com/NonCreature0714/rpi3-audio-player/issues",
-    "email" : "noncreature0714@gmail.com"
+  "bugs": {
+    "url": "https://github.com/NonCreature0714/rpi3-audio-player/issues",
+    "email": "noncreature0714@gmail.com"
   },
   "keywords": [
     "raspberry",
