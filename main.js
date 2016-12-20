@@ -124,7 +124,10 @@ const getNextTrackFrom = (pathToTrack) => {
 
 const play = (pathToTrack) => {	
 	//TODO: if path to track is single file, play on loop.
-	track = getNextTrackFrom(pathToTrack);
+	
+	if(!tracks){
+		track = getNextTrackFrom(pathToTrack);
+	}
 	
 	console.log('In startPlayer(), starting with track ' + track);
 	console.log('spawning omxplayer as child_process.');
@@ -188,9 +191,10 @@ var myArgs = process.argv.slice(2);
 
 myArgs.forEach((value, index) => {
 	//TODO: figure out command list.
-	if(isVerifiedPathAndMp3FileTypeAt(value)){
+	if(fs.existsSync(value)){
 		console.log('file paths passed is: ' + value);
-		play(value);
+		tracks.push(value);
+		play();
 	} else {
 		switch(value){
 		case "list":
