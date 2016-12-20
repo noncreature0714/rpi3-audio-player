@@ -101,11 +101,8 @@ const getNextTrackFrom = (pathToTrack) => {
 				trackIndex = 0;
 				currentTrack = tracks[trackIndex];
 			} else {
-				if(trackIndex===tracks.length-1){
-					trackIndex = 0;
-				} else {
-					++trackIndex;
-				}
+				(trackIndex===tracks.length-1) ? trackIndex = 0 : ++trackIndex;
+				console.log('trackIndex is: ' + trackIndex);
 				currentTrack = tracks[trackIndex];
 			}
 		} else {
