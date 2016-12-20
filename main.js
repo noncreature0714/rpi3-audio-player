@@ -87,12 +87,20 @@ const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
 		findTracks();
 	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){
-		process.emitWarning(warnMessage);
+		consol.log(warnMessage);
 		process.abort();
+	} else if (fs.existsSync(pathToTrack)){
+		audioFolder = pathToTrack;
+		files = fs.readdirSync(audioFolder);
+		files.forEach(file => {
+			if(path.extname(file) === '.mp3'){
+				tracks.push('./' + path.join(audioFolder, file));
+			}
+		});
 	}
 	
 	if(!tracks){
-		process.emitWarning('Not tracks to play, exiting...');
+		consol.log('Not tracks to play, exiting...');
 		process.abort();
 	} else {
 		if(currentTrack){
