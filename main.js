@@ -127,9 +127,11 @@ const play = (pathToTrack) => {
 	
 	if(!tracks){
 		track = getNextTrackFrom(pathToTrack);
+	} else {
+		track = tracks[0];
 	}
 	
-	console.log('In startPlayer(), starting with track ' + track);
+	console.log('In play(), starting with track ' + track);
 	console.log('spawning omxplayer as child_process.');
 	const omxplayer = spawn('omxplayer', [track]);
 	
