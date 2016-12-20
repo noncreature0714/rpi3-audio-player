@@ -184,6 +184,8 @@ const play = (pathToTrack) => {
 	});
 }
 
+play();
+
 const playTest = () => {
 	isTest = true;
 	getTracks();
