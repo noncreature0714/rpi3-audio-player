@@ -48,17 +48,21 @@ const findTracks = () => {
 
 	files = fs.readdirSync(musicFolder);
 	files.forEach(file => {
-		tracks.push('./' + path.join(musicFolder, file));
-		//console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
-		 index += 1;
+		var track = path.join(musicFolder, file);
+		if(fs.extname(track) === '.mp3'){
+			tracks.push('./' + track);
+		}
+		index += 1;
 	});
 	
 	if (tracks.length === 0) {
 		console.log(`No tracks in "${musicFolder}"`);
 		files = fs.readdirSync(audioTestFolder);
 		files.forEach(file => {
-			tracks.push('./' + path.join(audioTestFolder, file));
-			//console.log('From findTracks(), the file path of track ' + index + ' is: ' + tracks[index]);
+			var track = path.join(audioTestFolder, file);
+			if(fs.extname(track) === '.mp3'){
+				tracks.push('./' + track);
+			}
 			index += 1;
 		});
 	}
@@ -87,6 +91,25 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 	return isGood;
 }
 	
+const inspectFolderForMp3 = (folderPath) => {
+	var areMp3Files = false;
+	if(fs.existsSync(folderPath)){
+		files = fs.readdirSync(folderPath);
+		if (!files.length === 0) {
+			files.forEach(file =>{
+				if(fs.extname(file) === 'mp3'){
+					areMp3Files = true;
+					break;
+				}
+			});
+		} else {
+			console.log('No files in the folder.');
+		}
+	} else {
+		console.log(folderPath + ' is not a valid path or a folder name.');
+	}
+	return areMp3Files;
+}
 
 const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
@@ -147,6 +170,11 @@ const play = (pathToTrack) => {
 		}
 		//TODO: add conditions for other error codes.
 	});
+}
+
+const test = () => {
+	findTracks();
+
 }
 
 //play();
