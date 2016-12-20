@@ -106,7 +106,6 @@ const getNextTrackFrom = (pathToTrack) => {
 				} else {
 					++trackIndex;
 				}
-				console.log('from "getNextTrackFrom()," trackIndex is:' + trackIndex);
 				currentTrack = tracks[trackIndex];
 			}
 		} else {
