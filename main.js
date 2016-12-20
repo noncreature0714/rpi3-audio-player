@@ -68,7 +68,6 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 	if (!filePath) { //If argument is void, find tracks to play.
 		findTracks();
 	} else if (fs.existsSync(filePath)) { //If the argument is a valid path, then...
-		var tmpFolder = filePath;
 		if (path.extname(filePath) !== '.mp3') {
 			warnMessage = 'Invalid file type, rpi3-audio-player only plays mp3 files. Exiting...';
 			isGood = false;
@@ -76,9 +75,9 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 			currentTrack = filePath;
 			isGood = true;
 		}
-	} else if (fs.existsSync(filePath)){
-		warnMessage = 'Valid path...';
-		isGood = true;
+	} else {
+		warnMessage = 'Invalid file path! Exiting... ';
+		isGood = false;
 	}
 	return isGood;
 }
@@ -87,21 +86,14 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
 		findTracks();
-	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){ //Check for a single file.
-		console.log(warnMessage);
-	} else if (fs.existsSync(pathToTrack)){ //Check for a folder.
-		var tmpFolder = pathToTrack;
-		files = fs.readdirSync(tmpFolder);
-		files.forEach(file => {
-			if(path.extname(file) === '.mp3'){
-				tracks.push('./' + path.join(audioFolder, file));
-			}
-		});
+	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){
+		process.emitWarning(warnMessage);
+		process.abort();
 	}
 	
 	if(!tracks){
-		console.log('Not tracks to play, exiting...');
-		process.exit(1);
+		process.emitWarning('Not tracks to play, exiting...');
+		process.abort();
 	} else {
 		if(currentTrack){
 			if (tracks.length === 1) {//If there's only one track, keep playing it.
@@ -124,14 +116,9 @@ const getNextTrackFrom = (pathToTrack) => {
 
 const play = (pathToTrack) => {	
 	//TODO: if path to track is single file, play on loop.
+	track = getNextTrackFrom(pathToTrack);
 	
-	if(!tracks){
-		track = getNextTrackFrom(pathToTrack);
-	} else {
-		track = tracks[0];
-	}
-	
-	console.log('In play(), starting with track ' + track);
+	console.log('In startPlayer(), starting with track ' + track);
 	console.log('spawning omxplayer as child_process.');
 	const omxplayer = spawn('omxplayer', [track]);
 	
@@ -193,10 +180,9 @@ var myArgs = process.argv.slice(2);
 
 myArgs.forEach((value, index) => {
 	//TODO: figure out command list.
-	if(fs.existsSync(value)){
+	if(isVerifiedPathAndMp3FileTypeAt(value)){
 		console.log('file paths passed is: ' + value);
-		tracks.push(value);
-		play();
+		play(value);
 	} else {
 		switch(value){
 		case "list":
@@ -223,12 +209,8 @@ myArgs.forEach((value, index) => {
 			console.log('Folder loaded, playing...')
 			play();
 			break;
-		case "test":
-			var pathTo = './audio_test_tracks';
-			play(pathTo);
 		default:
 			console.log('Unknown operation: ' + value);
-			break;
 		}
 	}
 });
