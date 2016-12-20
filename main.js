@@ -53,7 +53,7 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 	return isFileOrDirectory(filePath) && isMp3File(filePath);
 }
 
-const inspectFolderForMp3 = (folderPath) => {
+const isFolderOfMp3s = (folderPath) => {
 	var areMp3Files = false;
 	if(isFileOrDirectory(folderPath)){
 		files = fs.readdirSync(folderPath);
@@ -114,12 +114,10 @@ const getTracks = () => {
 	numTracks = tracks.length;
 	if (isTracksEmpty()) {
 		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
+		console.log('Or use "test" to test functionality.')
 		process.exit('1');
 	}
 };
-
-
-
 
 const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
@@ -127,10 +125,10 @@ const getNextTrackFrom = (pathToTrack) => {
 	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){
 		console.log('Not a valid path or not an mp3 file.');
 		process.exit(1);
-	}
-
-	if (isMp3File(pathToTrack) && !tracks){
+	} else if (isMp3File(pathToTrack) && !tracks){
 		addOneTrackToTracks(pathToTrack);
+	} else if (isFolderOfMp3s(pathToTrack)){
+		addFolderToTracks(pathToTrack);
 	}
 	
 	if(!tracks){
