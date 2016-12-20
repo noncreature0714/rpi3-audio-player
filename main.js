@@ -27,7 +27,6 @@ var volume;
  **/
 
 const listTracks = () => {
-	console.log('listTracks() called, listing tracks')
 	if(!tracks){
 		console.log('There are no tracks!');
 		return;
@@ -40,7 +39,6 @@ const listTracks = () => {
 }
 
 const findTracks = () => {
-	console.log('findTracks function called.');
 	var index = 0;
 
 	files = fs.readdirSync(audioFolder);
