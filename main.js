@@ -68,6 +68,7 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 	if (!filePath) { //If argument is void, find tracks to play.
 		findTracks();
 	} else if (fs.existsSync(filePath)) { //If the argument is a valid path, then...
+		var tmpFolder = filePath;
 		if (path.extname(filePath) !== '.mp3') {
 			warnMessage = 'Invalid file type, rpi3-audio-player only plays mp3 files. Exiting...';
 			isGood = false;
@@ -75,9 +76,9 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 			currentTrack = filePath;
 			isGood = true;
 		}
-	} else {
-		warnMessage = 'Invalid file path! Exiting... ';
-		isGood = false;
+	} else if (fs.existsSync(filePath)){
+		warnMessage = 'Valid path...';
+		isGood = true;
 	}
 	return isGood;
 }
@@ -86,12 +87,11 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
 		findTracks();
-	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){
+	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){ //Check for a single file.
 		console.log(warnMessage);
-		process.abort();
-	} else if (fs.existsSync(pathToTrack)){
-		audioFolder = pathToTrack;
-		files = fs.readdirSync(audioFolder);
+	} else if (fs.existsSync(pathToTrack)){ //Check for a folder.
+		var tmpFolder = pathToTrack;
+		files = fs.readdirSync(tmpFolder);
 		files.forEach(file => {
 			if(path.extname(file) === '.mp3'){
 				tracks.push('./' + path.join(audioFolder, file));
@@ -101,7 +101,7 @@ const getNextTrackFrom = (pathToTrack) => {
 	
 	if(!tracks){
 		console.log('Not tracks to play, exiting...');
-		process.abort();
+		process.exit(1);
 	} else {
 		if(currentTrack){
 			if (tracks.length === 1) {//If there's only one track, keep playing it.
