@@ -91,7 +91,7 @@ const addOneTrackToTracks = (track) => {
 
 const addFolderToTracks = (folder)=> {
 	files = fs.readdirSync(folder);
-	files.forEach( file => {
+	files.forEach(file => {
 		var track = path.join(folder, file);
 		addOneTrackToTracks(track);
 	});
@@ -234,7 +234,7 @@ myArgs.forEach((value, index) => {
 			process.exit(0);
 			break;
 		case "play":
-			filePath = index+1 || null
+			filePath = index+1 || "";
 			play(filepath);
 		case "load":
 			console.log('Folder loaded, playing...')
