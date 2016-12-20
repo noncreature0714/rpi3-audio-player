@@ -27,13 +27,17 @@ var volume;
  * "amixer cset numid=3 0" to set to automatic
  **/
 
+const isMp3File = (file) =>{
+	return (path.extname(file) === '.mp3') ? true : false;
+}
+
 const inspectFolderForMp3 = (folderPath) => {
 	var areMp3Files = false;
 	if(fs.existsSync(folderPath)){
 		files = fs.readdirSync(folderPath);
 		if (!files.length === 0) {
 			files.forEach(file =>{
-				if(path.extname(file) === 'mp3'){
+				if(isMp3File(file)){
 					areMp3Files = true;
 				}
 			});
@@ -45,6 +49,8 @@ const inspectFolderForMp3 = (folderPath) => {
 	}
 	return areMp3Files;
 }
+
+
 
 const listTracks = () => {
 	if(!tracks){
