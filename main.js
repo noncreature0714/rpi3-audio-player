@@ -100,7 +100,7 @@ const getNextTrackFrom = (pathToTrack) => {
 	}
 	
 	if(!tracks){
-		consol.log('Not tracks to play, exiting...');
+		console.log('Not tracks to play, exiting...');
 		process.abort();
 	} else {
 		if(currentTrack){
