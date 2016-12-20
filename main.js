@@ -174,7 +174,11 @@ const functionsDictionary = {
 	"play": (audioPath)=>{ play(audioPath)}
 }
 
-process.argv.forEach((value, index) => {
+var myArgs = process.argv.slice(2);
+
+
+
+myArgs.forEach((value, index) => {
 	//TODO: figure out command list.
 	if(isVerifiedPathAndMp3FileTypeAt(value)){
 		console.log('file paths passed is: ' + value);
@@ -182,15 +186,35 @@ process.argv.forEach((value, index) => {
 	} else {
 		switch(value){
 		case "list":
-			process.emit('Listing avaiable tracks and exiting:');
+			console.log('Listing avaiable tracks and exiting:');
 			process.on('exit', functionsDictionary[value]);
 			process.exit(0);
 			break;
 		case "play":
 			//TODO: work on this.
+			myArgs.shift();
+			var pathToTrack;
+			if(isVerifiedPathAndMp3FileTypeAt(value)){
+				pathToTrack = value;
+			} else {
+				myArgs.unshift(value);
+			}
+			console.log('Playing tracks.'); 
+			process.on('exit', functionsDictionary[value](pathToTrack));
+			break;
+		case "load":
+			if (fs.existsSync(value)){
+				audioFolder = value;
+			}
+			console.log('Folder loaded, playing...')
 			play();
 			break;
-	
+		case "test":
+			audioFolder = './audio_test_tracks';
+			play();
+		default:
+			console.log('Unknown operation: ' + value);
+			break;
 		}
 	}
 });
