@@ -69,7 +69,7 @@ const findTracks = () => {
 	files.forEach(file => {
 		var track = path.join(musicFolder, file);
 		if(path.extname(track) === '.mp3'){
-			tracks.push('./' + track);
+			tracks.push(track);
 		}
 		index += 1;
 	});
