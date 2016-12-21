@@ -28,7 +28,7 @@
     "music"
   ],
   "os": [
-    "raspian"
+    "linux"
   ],
   "cpu": [
     "arm",
