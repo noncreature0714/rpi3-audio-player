@@ -136,6 +136,18 @@ const validatePathUsable = (filePath) => {
 	return filePath;
 }
 
+const doesTrackAlreadyExist = (filepath) => {
+	var isThere = false;
+	if(tracks){
+		tracks.forEach(track => {
+			if(track === filePath){
+				isThere === true;
+			}
+		})
+	}
+	return isThere;
+}
+
 const addOneTrackToTracks = (track) => {
 	console.log('Attempting to add one tracks: ' + track);
 	if(isMp3File(track)){
@@ -190,8 +202,10 @@ const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
 		getTracks();
 	} else {
-		(isMp3File(pathToTrack))? addOneTrackToTracks(pathToTrack) : (isADirectory(pathToTrack))? addFolderToTracks(pathToTrack) : tracks = null;
+		(isMp3File(pathToTrack))? doesTrackAlreadyExist(pathToTrack)? null : addOneTrackToTracks(pathToTrack) : (isADirectory(pathToTrack))? addFolderToTracks(pathToTrack) : tracks = null;
 	}
+
+	//addOneTrackToTracks(pathToTrack)
 	//*/
 	if(!tracks){
 		console.log('Not tracks to play, exiting...');
