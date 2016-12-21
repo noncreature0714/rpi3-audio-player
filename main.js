@@ -15,6 +15,7 @@ var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
 var warnMessage;
+var debugMode = false;
 var monoChannel = false;
 var audioRoute = 1; //0=auto, 1=headphone, 2=HDMI 
 var volume;
@@ -292,10 +293,39 @@ const functionsDictionary = {
 }
 
 var myArgs = process.argv.slice(2);
-
+var commands = Array();
+var cliPath = Array();
 myArgs.forEach((value, index) => {
 	//TODO: figure out command list.
 	switch(value){
+		case "list":
+			commands.push("list");
+			break;
+		case "play":
+			commands.push("play");
+			break;
+		case "load":
+			commands.push("load");
+			break;
+		case "test":
+			commands.push("playTest");
+			break;
+		case "help":
+			commands.push("help");
+			break;
+		default:
+			if(isMp3File(value)){
+				cliPath.push(value);
+			} else if(isFolderOfAtLeast1Mp3(value)){
+				cliPath.push(value);
+			} else {
+				console.log('Not a known command, directory of mp3s, or mp3 file.');
+			}
+	}
+});
+
+commands.forEach((cmd) => {
+	switch(cmd){
 		case "list":
 			console.log('Listing avaiable tracks and exiting:');
 			getTracks();
@@ -304,12 +334,12 @@ myArgs.forEach((value, index) => {
 			break;
 		case "play":
 			console.log('Playing...');
-			(myArgs[index+1])? play(myArgs[index+1]) : play();
+			(cliPath)? play(cliPath[0]) : play();
 			break;
 		case "load":
 			//TODO: this will be to add persistent data to player.
-			console.log('Playing from file ' + value);
-			play(myArgs[index+1]);
+			console.log('Playing from file ' + cliPath[0]);
+			play(cliPath[0]);
 			break;
 		case "test":
 			console.log('Testing 1, 2, 3...');
@@ -342,13 +372,14 @@ myArgs.forEach((value, index) => {
 			console.log('And audio will begin playing from three sample tracks.');
 			break;
 		default:
-			console.log('Unknown operation: ' + value);
+			console.log('Unknown operation: ' + cmd);
 			console.log('Use \'help\' for assistance!');
 			console.log('');
 			console.log('Example: 	rpi3-audio-player help');
 			console.log('');
 			break;
 	}
+
 });
 
 //TODO: figure out exports.
