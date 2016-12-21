@@ -233,7 +233,7 @@ const play = (pathToTrack) => {
 	//TODO: if path to track is single file, play on loop.
 	track = getNextTrackFrom(pathToTrack);
 	console.log('From tracks: ' + tracks);
-	console.log('Track: ' + track);
+	console.log('Playing track: ' + track);
 	const omxplayer = spawn('omxplayer', [track]);
 	
 	omxplayer.stdout.on('data', (data) => {
