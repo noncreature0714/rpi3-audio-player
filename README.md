@@ -1,9 +1,9 @@
-# rpi3-audio-player #
-## Audio player for the Raspberry Pi 3 ##
+# rpi3-audio-player 
+## Audio player for the Raspberry Pi 3 
 
 Supports CLI use as well as a library in your Node.js project.
 
-#This is a work in progress, so feel free to contribute :)#
+#This is a work in progress, so feel free to contribute :)
 
 ###Installation###
 
@@ -18,3 +18,23 @@ To use as a library, simply:
 ``` 
 const player = require('rpi3-audio-player');
 ```
+
+## CLI use
+
+To use rpi3-audio player, audio tracks must be placed in the ~/Music directory...
+
+> `rpi3-audio-player play` #will play music from ~/Music
+
+Or pass the path of a single mp3 file:
+
+> `rpi3-audio-player <path/to/file.mp3>`
+
+rpi3-audio-player can also be passed the path of a directory with .mp3's inside it.
+
+> `rpi3-audio-player <path/to/directory/with/*.mp3>`
+
+To test if the player is working if you don't have audio tracks, simply test it.
+
+> `rpi3-audio-player test`
+
+##More features coming soon!
