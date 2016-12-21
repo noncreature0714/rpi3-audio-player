@@ -51,6 +51,12 @@ const isMp3File = (filePath) => {
 	return value;
 }
 
+const isADirectory = (filePath) => {
+	var value = fs.lstatSync(filePath).isDirectory();
+	console.log('Checking if ' + filePath + ' is directory: ' + value);
+	return value;
+}
+
 const isOneTrack = () => {
 	return tracks.length === 1;
 }
@@ -72,27 +78,22 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 }
 
 const isFolderOfMp3s = (folderPath) => {
-	var areMp3Files = false;
 	console.log('Checking if there are mp3s in folder: ' + folderPath);
-	if(isFileOrDirectory(folderPath)){
-		if(files = fs.readdirSync(folderPath)){
-			if (!files.length === 0) {
+	if(isADirectory(folderPath)){
+		files = fs.readdirSync(folderPath);
+		if (!files.length === 0) {
 			files.forEach(file => { 
 				if (isMp3File(file)) {
-					areMp3Files = true;
+					return true;
 				}
 			});
-			} else {
-				console.log('No files in the folder.');
-			} 
 		} else {
-			areMp3Files = false;
-		}
-		
+			console.log('No files in the folder.');
+		} 
 	} else {
-		console.log(folderPath + ' is not a valid path or a folder name.');
+		console.log(folderPath + ' is not a directory.');
 	}
-	return areMp3Files;
+	return false;
 }
 
 const listTracks = () => {
@@ -115,16 +116,21 @@ const addOneTrackToTracks = (track) => {
 }
 
 const addFolderToTracks = (folder)=> {
-	if(isFileOrDirectory(folder)){
-		files = fs.readdirSync(folder);
-	console.log('From folder: ' + folder);
-	console.log('Attempting to add files: ' + files);
-	files.forEach(file => {
-		var track = path.join(folder, file);
-		addOneTrackToTracks(track);
-	});
+	if(isADirectory(folder)){
+		if(isFolderOfMp3s(folder)){
+			files = fs.readdirSync(folder);
+			console.log('From folder: ' + folder);
+			console.log('Attempting to add files: ' + files);
+			files.forEach(file => {
+				var track = path.join(folder, file);
+				addOneTrackToTracks(track);
+			});
+		} else {
+			console.log(folder + ' has no mp3s to add to tracks!');
+		}
+	} else {
+		console.log(folder + ' is not a directory!');
 	}
-	
 }
 
 
