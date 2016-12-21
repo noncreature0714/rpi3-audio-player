@@ -240,6 +240,7 @@ const play = (pathToTrack) => {
 }
 
 const playTest = () => {
+	var test = true;
 	getTracks(test);
 	play();
 }
