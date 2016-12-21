@@ -387,4 +387,4 @@ commands.forEach((cmd) => {
 });
 
 
-module.exports = {play, test, list};
+module.exports = {play, test, listTracks};
