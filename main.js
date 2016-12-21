@@ -10,6 +10,7 @@ const path = require('path');
 const musicFolder = '/home/pi/Music';
 const audioTestFolder = './audio_test_tracks';
 var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
+var trackDirectories = Array(); //NOTE: for future recursive functions.
 var trackIndex = 0;
 var currentTrack;
 var numTracks = 0;
@@ -17,10 +18,7 @@ var warnMessage;
 var monoChannel = false;
 var audioRoute = 1; //0=auto, 1=headphone, 2=HDMI 
 var volume;
-var isTest = false;
 var filePath = "s";
-
-//TODO: play the first file.
 
 //TODO: use jackd to configure the audio to play out of the headphone jack or hdmi (use parameters to detemine behaviour.)
 
@@ -28,6 +26,14 @@ var filePath = "s";
  * use "amixer cset numid=3 2" to set audio to HDMI, or 
  * "amixer cset numid=3 0" to set to automatic
  **/
+
+const isOneTrack = () => {
+	return tracks.length === 1;
+}
+
+const isAtEndOfTracks = () => {
+	return trackIndex === tracks.length-1;
+}
 
 const incrementTrackIndex = () => {
 	console.log('Incrementing trackIndex from "' + trackIndex++ + '" to "' + trackIndex + '.');
@@ -45,30 +51,43 @@ const isTracksEmpty = () => {
 	return value;
 }
 
+const isAString = (value) => {
+	return typeof value === 'string' || value instanceof String;
+}
+
 const isMp3File = (filePath) => {
-	var value = path.extname(filePath) === '.mp3';
-	console.log('Checking if file is mp3: ' + value);
-	return value;
+	if(isAString(filePath)){
+		var value = path.extname(filePath) === '.mp3';
+		console.log('Checking if file is mp3: ' + value);
+		return value;
+	} else {
+		console.log(filePath + ' is not a string! Exiting... ');
+		process.exit('1');
+	}
+	
 }
 
 const isADirectory = (filePath) => {
-	var value = fs.lstatSync(filePath).isDirectory();
-	console.log('Checking if ' + filePath + ' is directory: ' + value);
-	return value;
+	if(isAString(filePath)){
+		var value = fs.lstatSync(filePath).isDirectory();
+		console.log('Checking if ' + filePath + ' is directory: ' + value);
+		return value;
+	} else {
+		console.log(filePath + ' is not a string! Exiting... ');
+		process.exit('1');
+	}
 }
 
-const isOneTrack = () => {
-	return tracks.length === 1;
-}
-
-const isAtEndOfTracks = () => {
-	return trackIndex === tracks.length-1;
-}
-
-const isFileOrDirectory = (fileOrDirectory) => {
-	var value = fs.existsSync(fileOrDirectory);
-	console.log('Checking if path is a file or directory: ' + value);
-	return value;
+const isFileOrDirectory = (filePath) => {
+	if(isAString(filePath)){
+		var value = fs.existsSync(filePath);
+		console.log('Checking if path is a file or directory: ' + value);
+		return value;
+	} else {
+		console.log(filePath + ' is not a string! Exiting... ');
+		process.exit('1');
+	}
+	
 }
 
 const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
@@ -77,10 +96,10 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 	return value;
 }
 
-const isFolderOfMp3s = (folderPath) => {
-	console.log('Checking if there are mp3s in folder: ' + folderPath);
-	if(isADirectory(folderPath)){
-		files = fs.readdirSync(folderPath);
+const isFolderOfAtLeast1Mp3 = (filePath) => {
+	console.log('Checking if there are mp3s in folder: ' + filePath);
+	if(isADirectory(filePath)){
+		files = fs.readdirSync(filePath);
 		if (!files.length === 0) {
 			files.forEach(file => { 
 				if (isMp3File(file)) {
@@ -91,7 +110,7 @@ const isFolderOfMp3s = (folderPath) => {
 			console.log('No files in the folder.');
 		} 
 	} else {
-		console.log(folderPath + ' is not a directory.');
+		console.log(filePath + ' is not a directory.');
 	}
 	return false;
 }
@@ -108,64 +127,68 @@ const listTracks = () => {
 	}
 }
 
+const validatePathUsable = (filePath) => {
+	//TODO: complete
+	return filePath;
+}
+
 const addOneTrackToTracks = (track) => {
 	console.log('Attempting to add one tracks: ' + track);
 	if(isMp3File(track)){
+		//TODO: make sure path is good.
 		tracks.push(track);
 	}
 }
 
-const addFolderToTracks = (folder)=> {
-	if(isADirectory(folder)){
-		if(isFolderOfMp3s(folder)){
-			files = fs.readdirSync(folder);
-			console.log('From folder: ' + folder);
+const addFolderToTracks = (filePath)=> {
+	if(isADirectory(filePath)){
+		if(isFolderOfAtLeast1Mp3(filePath)){
+			files = fs.readdirSync(filePath);
+			console.log('From folder: ' + filePath);
 			console.log('Attempting to add files: ' + files);
 			files.forEach(file => {
-				var track = path.join(folder, file);
+				var track = path.join(filePath, file);
+				//TODO: make sure path is good.
 				addOneTrackToTracks(track);
 			});
 		} else {
-			console.log(folder + ' has no mp3s to add to tracks!');
+			console.log(filePath + ' has no mp3s to add to tracks!');
 		}
 	} else {
-		console.log(folder + ' is not a directory!');
+		console.log(filePath + ' is not a directory!');
 	}
 }
-
-
 
 const load = (fileOrFolder) => { //For persistent storage.
 	//TODO: figure this out.
 } 
 
-const getTracks = () => {
-	if(isTest){
+const getTracks = (testFlag) => {
+	(testFlag)? addFolderToTracks(audioTestFolder) : addFolderToTracks(musicFolder);
+	/*
+	if(testFlag){
 		addFolderToTracks(audioTestFolder);
 	} else {
 		addFolderToTracks(musicFolder);
-	}
+	}*/
 
 	numTracks = tracks.length;
 	if (isTracksEmpty()) {
-		console.log('No tracks to play, place tracks into ./audio_tracks or ~/Music.');
+		console.log('No tracks to play, place tracks into ~/Music.');
 		console.log('Or use "test" to test functionality.')
 		process.exit('1');
 	}
 };
 
 const getNextTrackFrom = (pathToTrack) => {
+	//(!pathToTrack)? getTracks() : (isMp3File(pathToTrack))? addOneTrackToTracks(pathToTrack) : (isADirectory(pathToTrack))? addFolderToTracks(pathToTrack) : tracks = null;
+	///*
 	if (!pathToTrack) { //If argument is void, find tracks to play.
 		getTracks();
-	} else if (!isVerifiedPathAndMp3FileTypeAt(pathToTrack)){
-		console.log('Not a valid path or not an mp3 file.');
-		process.exit(1);
-	} else if (isMp3File(pathToTrack) && !tracks){
-		addOneTrackToTracks(pathToTrack);
-	} else if (isFolderOfMp3s(pathToTrack)){
-		addFolderToTracks(pathToTrack);
+	} else {
+		(isMp3File(pathToTrack))? addOneTrackToTracks(pathToTrack) : (isADirectory(pathToTrack))? addFolderToTracks(pathToTrack) : tracks = null;
 	}
-	
+	//*/
 	if(!tracks){
 		console.log('Not tracks to play, exiting...');
 		process.exit(1);
@@ -185,7 +208,6 @@ const getNextTrackFrom = (pathToTrack) => {
 			currentTrack = tracks[trackIndex];
 		}
 	}
-
 	return currentTrack;	
 };
 
@@ -220,8 +242,7 @@ const play = (pathToTrack) => {
 //play();
 
 const playTest = () => {
-	isTest = true;
-	getTracks();
+	getTracks(test);
 	play();
 }
 
@@ -257,7 +278,6 @@ var myArgs = process.argv.slice(2);
 
 myArgs.forEach((value, index) => {
 	//TODO: figure out command list.
-	isTest = false;
 	switch(value){
 		case "list":
 			console.log('Listing avaiable tracks and exiting:');
@@ -267,15 +287,16 @@ myArgs.forEach((value, index) => {
 			break;
 		case "play":
 			console.log('Playing...');
-			(myArgs[index+1]) ? play(myArgs[index+1]) : play();
+			(myArgs[index+1])? play(myArgs[index+1]) : play();
 			break;
 		case "load":
-			console.log('Folder loaded, playing...')
-			play();
+			//TODO: this will be to add persistent data to player.
+			console.log('Playing from file ' + value);
+			play(myArgs[index+1]);
 			break;
 		case 'test':
 			console.log('Testing 1, 2, 3...');
-			playTest();
+			playTest(test);
 			break;
 		default:
 			console.log('Unknown operation: ' + value);
