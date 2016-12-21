@@ -246,7 +246,7 @@ const play = (pathToTrack) => {
 const playTest = () => {
 	var test = true;
 	getTracks(test);
-	play();
+	play(tracks[0]);
 }
 
 //TODO: command line interpreter for cli only use.
