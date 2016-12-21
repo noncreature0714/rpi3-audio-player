@@ -101,7 +101,7 @@ const isFolderOfAtLeast1Mp3 = (filePath) => {
 	if(isADirectory(filePath)){
 		files = fs.readdirSync(filePath);
 		console.log('Files are: ' + files);
-		if (!files.length === 0) {
+		if (files.length > 0) {
 			files.forEach(file => { 
 				if (isMp3File(file)) {
 					return true;
