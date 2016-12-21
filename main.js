@@ -2,6 +2,7 @@
 /*The goal is to create a player as a child process, 
 controllable from the parent process.*/
 
+
 const os = require('os');
 const fs = require('fs');
 const storage = require('node-persist');
@@ -28,9 +29,8 @@ var filePath = "s";
  * "amixer cset numid=3 0" to set to automatic
  **/
 
-exports.play = play;
-exports.test = test;
-exports.help = help;
+
+
 
 const isOneTrack = () => {
 	return tracks.length === 1;
@@ -387,5 +387,4 @@ commands.forEach((cmd) => {
 });
 
 
-//TODO: figure out exports.
-exports { play, test, list};
+module.exports = {play, test, list};
