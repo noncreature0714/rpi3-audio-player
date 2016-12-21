@@ -28,6 +28,10 @@ var filePath = "s";
  * "amixer cset numid=3 0" to set to automatic
  **/
 
+exports.play = play;
+exports.test = test;
+exports.help = help;
+
 const isOneTrack = () => {
 	return tracks.length === 1;
 }
@@ -384,4 +388,4 @@ commands.forEach((cmd) => {
 
 
 //TODO: figure out exports.
-export { play, test, list};
+exports { play, test, list};
