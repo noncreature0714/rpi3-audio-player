@@ -294,7 +294,7 @@ myArgs.forEach((value, index) => {
 			break;
 		case 'test':
 			console.log('Testing 1, 2, 3...');
-			playTest(test);
+			playTest('test');
 			break;
 		default:
 			console.log('Unknown operation: ' + value);
