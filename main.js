@@ -124,7 +124,7 @@ const listTracks = () => {
 		console.log('There are no tracks!');
 		return;
 	} else {
-		console.log('There are ' + tracks.length + ' tracks.');
+		console.log('There are ' + tracks.length + ' playable tracks.');
 		tracks.forEach(track => {
 			console.log(track);
 		});
