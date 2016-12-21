@@ -292,7 +292,7 @@ myArgs.forEach((value, index) => {
 			console.log('Playing from file ' + value);
 			play(myArgs[index+1]);
 			break;
-		case 'test':
+		case "test":
 			console.log('Testing 1, 2, 3...');
 			playTest('test');
 			break;
