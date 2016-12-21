@@ -109,11 +109,12 @@ const isFolderOfAtLeast1Mp3 = (filePath) => {
 			});
 		} else {
 			console.log('No files in the folder.');
+			return false;
 		} 
 	} else {
 		console.log(filePath + ' is not a directory.');
+		return false;
 	}
-	return false;
 }
 
 const listTracks = () => {
