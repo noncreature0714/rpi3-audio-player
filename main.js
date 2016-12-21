@@ -258,7 +258,7 @@ const play = (pathToTrack) => {
 	});
 }
 
-const playTest = () => {
+const test = () => {
 	var test = true;
 	getTracks(test);
 	play(tracks[0]);
@@ -343,7 +343,7 @@ commands.forEach((cmd) => {
 			break;
 		case "test":
 			console.log('Testing 1, 2, 3...');
-			playTest('test');
+			test('test');
 			break;
 		case "help":
 			console.log('Displaying help...');
@@ -382,4 +382,6 @@ commands.forEach((cmd) => {
 
 });
 
+
 //TODO: figure out exports.
+export { play, test, list};
