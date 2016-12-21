@@ -19,13 +19,6 @@
     "url": "https://github.com/NonCreature0714/rpi3-audio-player/issues",
     "email": "noncreature0714@gmail.com"
   },
-  "files" : [
-    "./audio_test_tracks",
-    "./audio_test_tracks/bensound-cute.mp3",
-    "./audio_test_tracks/bensound-dubstep.mp3",
-    "./audio_test_tracks/bensound-ofeliasdream.mp3",
-    "README.md"
-  ],
   "keywords": [
     "raspberry",
     "pi",
