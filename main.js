@@ -315,8 +315,31 @@ myArgs.forEach((value, index) => {
 			console.log('Testing 1, 2, 3...');
 			playTest('test');
 			break;
+		case "help":
+			console.log('Displaying help...');
+			console.log('rpi3-audio-player only plays mp3 files');
+			console.log('');
+			console.log('To play audio tracks, simply drag any ".mp3" files into Raspberry Pi\'s home Musc directory.');
+			console.log('The path to the music directy is ~/Music or /home/pi/Music'.);
+			console.log('');
+			console.log('A single file path to a director of mp3 or a path to a single file may also be passed to rpi3-audio-player.');
+			console.log('Such as:');
+			console.log('');
+			console.log('		(Assuming Global Installation)');
+			console.log('');
+			console.log('		rpi3-audio-player <file.mp3 or folder>');
+			console.log('')
+			console.log('No audio tracks? To test, simply type:');
+			console.log('		');
+			console.log('		rpi3-audio-player test');
+			console.log('');
+			console.log('And audio will begin playing from three sample tracks.');
 		default:
 			console.log('Unknown operation: ' + value);
+			console.log('Use \'help\' for assistance!');
+			console.log('');
+			console.log('Example: 	rpi3-audio-player help');
+			console.log('');
 			break;
 	}
 });
