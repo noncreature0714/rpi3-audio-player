@@ -33,8 +33,4 @@ rpi3-audio-player can also be passed the path of a directory with .mp3's inside 
 
 > `rpi3-audio-player <path/to/directory/with/*.mp3>`
 
-To test if the player is working if you don't have audio tracks, simply test it.
-
-> `rpi3-audio-player test`
-
 ##More features coming soon!
