@@ -98,23 +98,25 @@ const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
 
 const isFolderOfAtLeast1Mp3 = (filePath) => {
 	console.log('Checking if there are mp3s in folder: ' + filePath);
+	var isOneMp3 = false;
 	if(isADirectory(filePath)){
 		files = fs.readdirSync(filePath);
 		console.log('Files are: ' + files);
 		if (files.length > 0) {
 			files.forEach(file => { 
 				if (isMp3File(file)) {
-					return true;
+					isOneMp3 = true;
 				}
 			});
 		} else {
 			console.log('No files in the folder.');
-			return false;
+			isOneMp3 = false;
 		} 
 	} else {
 		console.log(filePath + ' is not a directory.');
-		return false;
+		isOneMp3 = false;
 	}
+	return isOneMp3;
 }
 
 const listTracks = () => {
