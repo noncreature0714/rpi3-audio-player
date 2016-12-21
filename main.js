@@ -9,7 +9,6 @@ const storage = require('node-persist');
 const spawn = require('child_process').spawn;
 const path = require('path');
 const musicFolder = '/home/pi/Music';
-const audioTestFolder = './audio_test_tracks';
 var tracks = Array();//TODO: store paths to audio tracks, not the files themselves.
 var trackDirectories = Array(); //NOTE: for future recursive functions.
 var trackIndex = 0;
@@ -184,19 +183,12 @@ const load = (fileOrFolder) => { //For persistent storage.
 	//TODO: figure this out.
 } 
 
-const getTracks = (testFlag) => {
-	(testFlag)? addFolderToTracks(audioTestFolder) : addFolderToTracks(musicFolder);
-	/*
-	if(testFlag){
-		addFolderToTracks(audioTestFolder);
-	} else {
-		addFolderToTracks(musicFolder);
-	}*/
+const getTracks = () => {
+	addFolderToTracks(musicFolder);
 
 	numTracks = tracks.length;
 	if (isTracksEmpty()) {
 		console.log('No tracks to play, place tracks into ~/Music.');
-		console.log('Or use "test" to test functionality.')
 		process.exit('1');
 	}
 };
@@ -262,12 +254,6 @@ const play = (pathToTrack) => {
 	});
 }
 
-const test = () => {
-	var test = true;
-	getTracks(test);
-	play(tracks[0]);
-}
-
 //TODO: command line interpreter for cli only use.
 //TODO: stop() function. (same as exit()).
 //TODO: pauseOrResume() function.
@@ -289,12 +275,6 @@ const test = () => {
 //TODO: add tracks function.
 //TODO: set number of audio channels function (max is 2)
 //TODO: set audio route function with amixer.
-const functionsDictionary = {
-	"list": ()=>{getTracks();listTracks()}, 
-	"load": (folder)=>{audioFolder = folder; console.log(`This changes how the applicaiton works, proceed with caution, or place audio in ~/Music!`)}, 
-	"test": ()=>{const omxplayer = spawn('omxplayer', './audio_files/bensound-cute.mp3')},
-	"play": (audioPath)=>{ play(audioPath)}
-}
 
 var myArgs = process.argv.slice(2);
 var commands = Array();
@@ -310,9 +290,6 @@ myArgs.forEach((value, index) => {
 			break;
 		case "load":
 			commands.push("load");
-			break;
-		case "test":
-			commands.push("test");
 			break;
 		case "help":
 			commands.push("help");
@@ -345,10 +322,6 @@ commands.forEach((cmd) => {
 			console.log('Playing from file ' + cliPath[0]);
 			play(cliPath[0]);
 			break;
-		case "test":
-			console.log('Testing 1, 2, 3...');
-			test('test');
-			break;
 		case "help":
 			console.log('Displaying help...');
 			console.log('rpi3-audio-player only plays mp3 files.');
@@ -368,11 +341,6 @@ commands.forEach((cmd) => {
 			console.log('		rpi3-audio-player <file.mp3 or folder>');
 			console.log('');
 			console.log('');
-			console.log('No audio tracks? To test, simply type:');
-			console.log('		');
-			console.log('		rpi3-audio-player test');
-			console.log('');
-			console.log('');
 			console.log('And audio will begin playing from three sample tracks.');
 			break;
 		default:
@@ -387,4 +355,4 @@ commands.forEach((cmd) => {
 });
 
 
-module.exports = {play, test, listTracks};
+module.exports = {play, listTracks};
