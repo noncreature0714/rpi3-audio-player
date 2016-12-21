@@ -334,6 +334,7 @@ myArgs.forEach((value, index) => {
 			console.log('		rpi3-audio-player test');
 			console.log('');
 			console.log('And audio will begin playing from three sample tracks.');
+			break;
 		default:
 			console.log('Unknown operation: ' + value);
 			console.log('Use \'help\' for assistance!');
