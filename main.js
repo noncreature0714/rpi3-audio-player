@@ -312,7 +312,7 @@ myArgs.forEach((value, index) => {
 			commands.push("load");
 			break;
 		case "test":
-			commands.push("playTest");
+			commands.push("test");
 			break;
 		case "help":
 			commands.push("help");
