@@ -321,6 +321,10 @@ myArgs.forEach((value, index) => {
 			console.log('');
 			console.log('To play audio tracks, simply drag any ".mp3" files into Raspberry Pi\'s home Musc directory.');
 			console.log('The path to the music directory is "~/Music" or "/home/pi/Music"');
+			console.log('Then give rpi-audio-player the "play" command');
+			console.log('')
+			console.log('		rpi-audio-player play');
+			console.log('');
 			console.log('');
 			console.log('A single file path to a director of mp3 or a path to a single file may also be passed to rpi3-audio-player.');
 			console.log('Such as:');
