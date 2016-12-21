@@ -1,6 +1,6 @@
 {
   "name": "rpi3-audio-player",
-  "version": "0.2.23",
+  "version": "0.2.24",
   "description": "An Node.js audio player custom built for the Raspberry Pi 3.",
   "main": "main.js",
   "license": "MIT",
