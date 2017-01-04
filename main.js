@@ -28,6 +28,13 @@ var filePath = "s";
  * "amixer cset numid=3 0" to set to automatic
  **/
 
+process.on('notracks', () => {
+	process.send('notracks');
+});
+
+process.on('reload', () => {
+
+});
 
 
 
