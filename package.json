@@ -10,7 +10,8 @@
     "url": "https://github.com/NonCreature0714/rpi3-audio-player.git"
   },
   "dependencies": {
-    "node-persist": "^2.0.7"
+    "node-persist": "^2.0.7",
+    "valid-values": "^1.0.2"
   },
   "scripts": {
     "test": "test"
