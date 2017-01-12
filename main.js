@@ -2,9 +2,9 @@
 /*The goal is to create a player as a child process,
 controllable from the parent process.*/
 
-
 const os = require('os');
 const fs = require('fs');
+const vv = require('valid-values');
 const storage = require('node-persist');
 const spawn = require('child_process').spawn;
 const path = require('path');
@@ -58,7 +58,7 @@ const isTracksEmpty = () => {
 const isAString = (value) => {
 	return typeof value === 'string' || value instanceof String;
 }
-
+/*
 const isFile = (ofType, atPath) => {
 	if(isAString(atPath)){
 		var value = path.extname(atPath) === ofType;
@@ -68,9 +68,9 @@ const isFile = (ofType, atPath) => {
 		console.log(atPath + ' is not a string! Exiting... ');
 		process.exit('1');
 	}
-}
-
-const File = (filePath) => {
+}*/
+/*
+const isMp3File = (filePath) => {
 	if(isAString(filePath)){
 		var value = path.extname(filePath) === '.mp3';
 		console.log('Checking if file is mp3: ' + value);
@@ -80,7 +80,7 @@ const File = (filePath) => {
 		process.exit('1');
 	}
 
-}
+}*/
 
 const isADirectory = (filePath) => {
 	if(isAString(filePath)){
@@ -106,7 +106,7 @@ const isFileOrDirectory = (filePath) => {
 }
 
 const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
-	var value = isFileOrDirectory(filePath) && isFile('.mp3', filePath)
+	var value = isFileOrDirectory(filePath) && vv.isFile('.mp3', filePath);
 	console.log('Checking if file path is good and is mp3: ' + value);
 	return value;
 }
@@ -119,7 +119,7 @@ const isFolderOfAtLeast1Mp3 = (filePath) => {
 		console.log('Files are: ' + files);
 		if (files.length > 0) {
 			files.forEach(file => {
-				if (isFile('.mp3', file)) {
+				if (vv.isFile('.mp3', file)) {
 					isOneMp3 = true;
 				}
 			});
@@ -165,7 +165,7 @@ const doesTrackAlreadyExist = (filepath) => {
 
 const addOneTrackToTracks = (track) => {
 	console.log('Attempting to add one tracks: ' + track);
-	if(isFile('.mp3', track)){
+	if(vv.isFile('.mp3', track)){
 		//TODO: make sure path is good.
 		tracks.push(track);
 	}
@@ -210,7 +210,7 @@ const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
 		getTracks();
 	} else {
-		(isFile('.mp3', pathToTrack))? doesTrackAlreadyExist(pathToTrack)? null : addOneTrackToTracks(pathToTrack) : (isADirectory(pathToTrack))? addFolderToTracks(pathToTrack) : tracks = null;
+		(vv.isFile('.mp3', pathToTrack))? doesTrackAlreadyExist(pathToTrack)? null : addOneTrackToTracks(pathToTrack) : (isADirectory(pathToTrack))? addFolderToTracks(pathToTrack) : tracks = null;
 	}
 
 	//addOneTrackToTracks(pathToTrack)
@@ -306,7 +306,7 @@ myArgs.forEach((value, index) => {
 			commands.push("help");
 			break;
 		default:
-			if(isFile('.mp3', value)){
+			if(vv.isFile('.mp3', value)){
 				cliPath.push(value);
 			} else if(isFolderOfAtLeast1Mp3(value)){
 				cliPath.push(value);
