@@ -47,19 +47,21 @@ const isAtEndOfTracks = () => {
 }
 
 const incrementTrackIndex = () => {
-	console.log('Incrementing trackIndex from "' + trackIndex++ + '" to "' + trackIndex + '.');
+	//console.log('Incrementing trackIndex from "' + trackIndex++ + '" to "' + trackIndex + '.');
+	//TODO: check if this is used anywhere.
 	trackIndex;
 }
 
 const getTrackIndex = () => {
-	console.log('Getting track index: ' + trackIndex);
+	//console.log('Getting track index: ' + trackIndex);
 	return trackIndex;
 }
 
 const isTracksEmpty = () => {
-	var value = tracks.length === 0;
-	console.log('Checking if tracks array is empty: ' + value);
-	return value;
+	//var value = tracks.length === 0;
+	//console.log('Checking if tracks array is empty: ' + value);
+	//return value;
+	return tracks.length === 0;
 }
 
 const isAString = (value) => {
@@ -68,9 +70,10 @@ const isAString = (value) => {
 
 const isMp3File = (filePath) => {
 	if(isAString(filePath)){
-		var value = path.extname(filePath) === '.mp3';
-		console.log('Checking if file is mp3: ' + value);
-		return value;
+		//var value = path.extname(filePath) === '.mp3';
+		//console.log('Checking if file is mp3: ' + value);
+		//return value;
+		return path.extname(filePath) === '.mp3';
 	} else {
 		console.log(filePath + ' is not a string! Exiting... ');
 		process.exit('1');
@@ -80,9 +83,10 @@ const isMp3File = (filePath) => {
 
 const isADirectory = (filePath) => {
 	if(isAString(filePath)){
-		var value = fs.lstatSync(filePath).isDirectory();
-		console.log('Checking if ' + filePath + ' is directory: ' + value);
-		return value;
+		//var value = fs.lstatSync(filePath).isDirectory();
+		//console.log('Checking if ' + filePath + ' is directory: ' + value);
+		//return value;
+		return fs.lstatSync(filePath).isDirectory();
 	} else {
 		console.log(filePath + ' is not a string! Exiting... ');
 		process.exit('1');
@@ -91,9 +95,10 @@ const isADirectory = (filePath) => {
 
 const isFileOrDirectory = (filePath) => {
 	if(isAString(filePath)){
-		var value = fs.existsSync(filePath);
-		console.log('Checking if path is a file or directory: ' + value);
-		return value;
+		//var value = fs.existsSync(filePath);
+		//console.log('Checking if path is a file or directory: ' + value);
+		//return value;
+		return fs.existsSync(filePath);
 	} else {
 		console.log(filePath + ' is not a string! Exiting... ');
 		process.exit('1');
@@ -102,17 +107,18 @@ const isFileOrDirectory = (filePath) => {
 }
 
 const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
-	var value = isFileOrDirectory(filePath) && isMp3File(filePath)
-	console.log('Checking if file path is good and is mp3: ' + value);
-	return value;
+	//var value = isFileOrDirectory(filePath) && isMp3File(filePath)
+	//console.log('Checking if file path is good and is mp3: ' + value);
+	//return value;
+	return isFileOrDirectory(filepath) && isMp3Fil3(filePath);
 }
 
 const isFolderOfAtLeast1Mp3 = (filePath) => {
-	console.log('Checking if there are mp3s in folder: ' + filePath);
+	//console.log('Checking if there are mp3s in folder: ' + filePath);
 	var isOneMp3 = false;
 	if(isADirectory(filePath)){
 		files = fs.readdirSync(filePath);
-		console.log('Files are: ' + files);
+		//console.log('Files are: ' + files);
 		if (files.length > 0) {
 			files.forEach(file => { 
 				if (isMp3File(file)) {
@@ -160,7 +166,7 @@ const doesTrackAlreadyExist = (filepath) => {
 }
 
 const addOneTrackToTracks = (track) => {
-	console.log('Attempting to add one tracks: ' + track);
+	//console.log('Attempting to add one tracks: ' + track);
 	if(isMp3File(track)){
 		//TODO: make sure path is good.
 		tracks.push(track);
@@ -171,8 +177,8 @@ const addFolderToTracks = (filePath)=> {
 	if(isADirectory(filePath)){
 		if(isFolderOfAtLeast1Mp3(filePath)){
 			files = fs.readdirSync(filePath);
-			console.log('From folder: ' + filePath);
-			console.log('Attempting to add files: ' + files);
+			//console.log('From folder: ' + filePath);
+			//console.log('Attempting to add files: ' + files);
 			files.forEach(file => {
 				var track = path.join(filePath, file);
 				//TODO: make sure path is good.
@@ -284,6 +290,9 @@ const play = (pathToTrack) => {
 //TODO: set audio route function with amixer.
 
 var myArgs = process.argv.slice(2);
+if(myArgs.length === 0){
+	console.log("Please enter a command, like 'play' or 'help'.");
+}
 var commands = Array();
 var cliPath = Array();
 myArgs.forEach((value, index) => {
@@ -315,7 +324,7 @@ myArgs.forEach((value, index) => {
 commands.forEach((cmd) => {
 	switch(cmd){
 		case "list":
-			console.log('Listing avaiable tracks and exiting:');
+			//console.log('Listing avaiable tracks and exiting:');
 			getTracks();
 			listTracks();
 			process.exit(0);
