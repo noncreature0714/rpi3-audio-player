@@ -1,6 +1,6 @@
 var assert = require('assert');
 var should = require('chai').should();
-import isAString from '../main.js'
+var isAString = require('../main.js');
 
 describe('Array', function() {
   describe('#indexOf()', function() {
@@ -9,10 +9,11 @@ describe('Array', function() {
     });
   });
 });
-
+/*
 describe('isAString', function(){
   it('should return false when the value is not a string, function() {
     assert.
   });
  
 });
+*/

@@ -2,8 +2,6 @@
 /*The goal is to create a player as a child process,
 controllable from the parent process.*/
 
-module.exports = isAString;
-
 const os = require('os');
 const fs = require('fs');
 const vv = require('valid-values');
@@ -382,4 +380,4 @@ commands.forEach((cmd) => {
 });
 
 
-module.exports = {play, listTracks};
+module.exports = {play, listTracks, isAString};
