@@ -1,10 +1,10 @@
 //NOTE: this is a work in progress!
-/*The goal is to create a player as a child process, 
+/*The goal is to create a player as a child process,
 controllable from the parent process.*/
-
 
 const os = require('os');
 const fs = require('fs');
+const vv = require('valid-values');
 const storage = require('node-persist');
 const spawn = require('child_process').spawn;
 const path = require('path');
@@ -17,14 +17,14 @@ var numTracks = 0;
 var warnMessage;
 var debugMode = false;
 var monoChannel = false;
-var audioRoute = 1; //0=auto, 1=headphone, 2=HDMI 
+var audioRoute = 1; //0=auto, 1=headphone, 2=HDMI
 var volume;
 var filePath = "s";
 
 //TODO: use jackd to configure the audio to play out of the headphone jack or hdmi (use parameters to detemine behaviour.)
 
-/* NOTE: use "amixer cset numid=3 1" to set audio to headphone jack, 
- * use "amixer cset numid=3 2" to set audio to HDMI, or 
+/* NOTE: use "amixer cset numid=3 1" to set audio to headphone jack,
+ * use "amixer cset numid=3 2" to set audio to HDMI, or
  * "amixer cset numid=3 0" to set to automatic
  **/
 
@@ -67,7 +67,18 @@ const isTracksEmpty = () => {
 const isAString = (value) => {
 	return typeof value === 'string' || value instanceof String;
 }
-
+/*
+const isFile = (ofType, atPath) => {
+	if(isAString(atPath)){
+		var value = path.extname(atPath) === ofType;
+		console.log('File is ' + ofType + ': ' + value);
+		return value;
+	} else {
+		console.log(atPath + ' is not a string! Exiting... ');
+		process.exit('1');
+	}
+}*/
+/*
 const isMp3File = (filePath) => {
 	if(isAString(filePath)){
 		//var value = path.extname(filePath) === '.mp3';
@@ -78,8 +89,8 @@ const isMp3File = (filePath) => {
 		console.log(filePath + ' is not a string! Exiting... ');
 		process.exit('1');
 	}
-	
-}
+
+}*/
 
 const isADirectory = (filePath) => {
 	if(isAString(filePath)){
@@ -103,14 +114,20 @@ const isFileOrDirectory = (filePath) => {
 		console.log(filePath + ' is not a string! Exiting... ');
 		process.exit('1');
 	}
-	
+
 }
 
 const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
+<<<<<<< HEAD
 	//var value = isFileOrDirectory(filePath) && isMp3File(filePath)
 	//console.log('Checking if file path is good and is mp3: ' + value);
 	//return value;
 	return isFileOrDirectory(filepath) && isMp3Fil3(filePath);
+=======
+	var value = isFileOrDirectory(filePath) && vv.isFile('.mp3', filePath);
+	console.log('Checking if file path is good and is mp3: ' + value);
+	return value;
+>>>>>>> e9f7b5eb1240f29774727ac58b7c9ae22967d75b
 }
 
 const isFolderOfAtLeast1Mp3 = (filePath) => {
@@ -120,15 +137,15 @@ const isFolderOfAtLeast1Mp3 = (filePath) => {
 		files = fs.readdirSync(filePath);
 		//console.log('Files are: ' + files);
 		if (files.length > 0) {
-			files.forEach(file => { 
-				if (isMp3File(file)) {
+			files.forEach(file => {
+				if (vv.isFile('.mp3', file)) {
 					isOneMp3 = true;
 				}
 			});
 		} else {
 			console.log('No files in the folder.');
 			isOneMp3 = false;
-		} 
+		}
 	} else {
 		console.log(filePath + ' is not a directory.');
 		isOneMp3 = false;
@@ -166,8 +183,13 @@ const doesTrackAlreadyExist = (filepath) => {
 }
 
 const addOneTrackToTracks = (track) => {
+<<<<<<< HEAD
 	//console.log('Attempting to add one tracks: ' + track);
 	if(isMp3File(track)){
+=======
+	console.log('Attempting to add one tracks: ' + track);
+	if(vv.isFile('.mp3', track)){
+>>>>>>> e9f7b5eb1240f29774727ac58b7c9ae22967d75b
 		//TODO: make sure path is good.
 		tracks.push(track);
 	}
@@ -194,7 +216,7 @@ const addFolderToTracks = (filePath)=> {
 
 const load = (fileOrFolder) => { //For persistent storage.
 	//TODO: figure this out.
-} 
+}
 
 const getTracks = () => {
 	addFolderToTracks(musicFolder);
@@ -212,7 +234,7 @@ const getNextTrackFrom = (pathToTrack) => {
 	if (!pathToTrack) { //If argument is void, find tracks to play.
 		getTracks();
 	} else {
-		(isMp3File(pathToTrack))? doesTrackAlreadyExist(pathToTrack)? null : addOneTrackToTracks(pathToTrack) : (isADirectory(pathToTrack))? addFolderToTracks(pathToTrack) : tracks = null;
+		(vv.isFile('.mp3', pathToTrack))? doesTrackAlreadyExist(pathToTrack)? null : addOneTrackToTracks(pathToTrack) : (isADirectory(pathToTrack))? addFolderToTracks(pathToTrack) : tracks = null;
 	}
 
 	//addOneTrackToTracks(pathToTrack)
@@ -236,7 +258,7 @@ const getNextTrackFrom = (pathToTrack) => {
 			currentTrack = tracks[trackIndex];
 		}
 	}
-	return currentTrack;	
+	return currentTrack;
 };
 
 const play = (pathToTrack) => {
@@ -245,7 +267,7 @@ const play = (pathToTrack) => {
 	console.log('From tracks: ' + tracks);
 	console.log('Playing track: ' + track);
 	const omxplayer = spawn('omxplayer', [track]);
-	
+
 	omxplayer.stdout.on('data', (data) => {
 		console.log(`${data}`);
 	});
@@ -311,7 +333,7 @@ myArgs.forEach((value, index) => {
 			commands.push("help");
 			break;
 		default:
-			if(isMp3File(value)){
+			if(vv.isFile('.mp3', value)){
 				cliPath.push(value);
 			} else if(isFolderOfAtLeast1Mp3(value)){
 				cliPath.push(value);
