@@ -118,16 +118,10 @@ const isFileOrDirectory = (filePath) => {
 }
 
 const isVerifiedPathAndMp3FileTypeAt = (filePath) => {
-<<<<<<< HEAD
 	//var value = isFileOrDirectory(filePath) && isMp3File(filePath)
 	//console.log('Checking if file path is good and is mp3: ' + value);
 	//return value;
 	return isFileOrDirectory(filepath) && isMp3Fil3(filePath);
-=======
-	var value = isFileOrDirectory(filePath) && vv.isFile('.mp3', filePath);
-	console.log('Checking if file path is good and is mp3: ' + value);
-	return value;
->>>>>>> e9f7b5eb1240f29774727ac58b7c9ae22967d75b
 }
 
 const isFolderOfAtLeast1Mp3 = (filePath) => {
@@ -183,14 +177,7 @@ const doesTrackAlreadyExist = (filepath) => {
 }
 
 const addOneTrackToTracks = (track) => {
-<<<<<<< HEAD
-	//console.log('Attempting to add one tracks: ' + track);
-	if(isMp3File(track)){
-=======
-	console.log('Attempting to add one tracks: ' + track);
 	if(vv.isFile('.mp3', track)){
->>>>>>> e9f7b5eb1240f29774727ac58b7c9ae22967d75b
-		//TODO: make sure path is good.
 		tracks.push(track);
 	}
 }
