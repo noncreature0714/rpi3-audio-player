@@ -28,13 +28,6 @@
     "player",
     "music"
   ],
-  "os": [
-    "linux"
-  ],
-  "cpu": [
-    "arm",
-    "!x86"
-  ],
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.2.0"
