@@ -19,7 +19,7 @@ var debugMode = false;
 var monoChannel = false;
 var audioRoute = 1; //0=auto, 1=headphone, 2=HDMI
 var volume;
-var filePath = "s";
+var filePath = "";
 
 //TODO: use jackd to configure the audio to play out of the headphone jack or hdmi (use parameters to detemine behaviour.)
 
